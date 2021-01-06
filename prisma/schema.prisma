@@ -30,7 +30,10 @@ model User {
   address      Address?      @relation(fields: [addressId], references: [id])
   room         Room[]
   reviews      Review[]
+  lists        List[]
   reservations Reservation[]
+  chats        Chat[]
+  messages     Message[]
   name         String
   gender       String
   avatar       String?
@@ -55,6 +58,7 @@ model Room {
   facilities   Facility[]    @relation(references: [id])
   reviews      Review[]
   reservations Reservation[]
+  lists        List[]
   instantBook  Boolean       @default(false)
   name         String
   price        Float
@@ -64,7 +68,10 @@ model Room {
   guests       Int
   checkIn      DateTime
   checkOut     DateTime
+  created      DateTime      @default(now())
+  updated      DateTime      @default(now())
   description  String?
+
 
 }
 
@@ -93,16 +100,18 @@ model Facility {
 }
 
 model Review {
-  id            String  @id @default(cuid())
+  id            String   @id @default(cuid())
   content       String
+  created       DateTime @default(now())
+  updated       DateTime @default(now())
   accuracy      Int
   location      Int
   communication Int
   checkIn       Int
   value         Int
-  User          User?   @relation(fields: [userId], references: [id])
+  User          User?    @relation(fields: [userId], references: [id])
   userId        String?
-  Room          Room?   @relation(fields: [roomId], references: [id])
+  Room          Room?    @relation(fields: [roomId], references: [id])
   roomId        String?
 }
 
@@ -111,6 +120,8 @@ model Reservation {
   status   String
   checkIn  DateTime
   checkOut DateTime
+  created  DateTime @default(now())
+  updated  DateTime @default(now())
 
   guest   User?   @relation(fields: [guestId], references: [id])
   guestId String?
@@ -118,3 +129,33 @@ model Reservation {
   roomId  String?
 }
 
+model List {
+  id      String   @id @default(cuid())
+  name    String
+  created DateTime @default(now())
+  updated DateTime @default(now())
+
+  User   User?   @relation(fields: [userId], references: [id])
+  userId String?
+  rooms  Room[]
+}
+
+model Chat {
+  id             String    @id @default(cuid())
+  participations User[]
+  messages       Message[]
+  created        DateTime  @default(now())
+  updated        DateTime  @default(now())
+
+}
+
+model Message {
+  id      String   @id @default(cuid())
+  text    String
+  created DateTime @default(now())
+  updated DateTime @default(now())
+  User    User?    @relation(fields: [userId], references: [id])
+  userId  String?
+  Chat    Chat?    @relation(fields: [chatId], references: [id])
+  chatId  String?
+}
