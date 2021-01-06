@@ -6,13 +6,14 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon --exec ts-node src/index.ts",
-    "dev2":"nodemon src/index.js",
-    "watch":"tsc -w"
+    "dev2": "nodemon src/index.js",
+    "watch": "tsc -w"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@prisma/cli": "^2.14.0",
     "@types/node": "^14.14.20",
     "ts-node": "^9.1.1",
     "typescript": "^4.1.3"
