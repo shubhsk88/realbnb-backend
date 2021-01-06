@@ -9,3 +9,79 @@ datasource db {
 generator client {
   provider = "prisma-client-js"
 }
+
+model Address {
+  id      String @id @default(cuid())
+  city    String
+  country String
+  address String
+  User    User[]
+  Room    Room[]
+}
+
+model User {
+  id        String    @id @default(cuid())
+  created   DateTime  @default(now())
+  updated   DateTime  @default(now())
+  superhost Boolean   @default(false)
+  language  String    @default("en")
+  currency  String    @default("usd")
+  email     String    @unique
+  address   Address?  @relation(fields: [addressId], references: [id])
+  room      Room[]
+  name      String
+  gender    String
+  avatar    String?
+  birthdate DateTime?
+  bio       String?
+  phone     String?
+  password  String?
+  addressId String?
+}
+
+model Room {
+  id          String      @id @default(cuid())
+  host        User?       @relation(fields: [hostId], references: [id])
+  hostId      String?
+  address     Address     @relation(fields: [addressId], references: [id])
+  addressId   String
+  roomType    RoomType    @relation(fields: [roomTypeId], references: [id])
+  roomTypeId  String
+  amenities   Amenity[]   @relation(references: [id])
+  houseRules  HouseRule[] @relation(references: [id])
+  facilities  Facility[]  @relation(references: [id])
+  instantBook Boolean     @default(false)
+  name        String
+  price       Float
+  beds        Int
+  bedrooms    Int
+  bathroom    Int
+  guests      Int
+  checkIn     DateTime
+  checkOut    DateTime
+  description String?
+}
+
+model RoomType {
+  id   String @id @default(cuid())
+  name String
+  room Room[]
+}
+
+model Amenity {
+  id    String @id @default(cuid())
+  name  String
+  rooms Room[] @relation(references: [id])
+}
+
+model HouseRule {
+  id    String @id @default(cuid())
+  name  String
+  rooms Room[] @relation(references: [id])
+}
+
+model Facility {
+  id    String @id @default(cuid())
+  name  String
+  rooms Room[] @relation(references: [id])
+}
