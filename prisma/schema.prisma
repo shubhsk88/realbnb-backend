@@ -2,8 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 datasource db {
-  provider = "mysql"
-  url      = env("./dev.db")
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
 generator client {
@@ -14,7 +14,7 @@ model Address {
   id      String @id @default(cuid())
   city    String
   country String
-  address String
+  address  String
   User    User[]
   Room    Room[]
 }
@@ -62,6 +62,7 @@ model Room {
   instantBook  Boolean       @default(false)
   name         String
   price        Float
+  photos       Photo[]
   beds         Int
   bedrooms     Int
   bathroom     Int
@@ -158,4 +159,13 @@ model Message {
   userId  String?
   Chat    Chat?    @relation(fields: [chatId], references: [id])
   chatId  String?
+}
+
+model Photo {
+  id      String @id @default(cuid())
+  caption String
+  link    String
+
+  Room   Room?   @relation(fields: [roomId], references: [id])
+  roomId String?
 }
