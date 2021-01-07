@@ -14,7 +14,7 @@ model Address {
   id      String @id @default(cuid())
   city    String
   country String
-  address  String
+  address String
   User    User[]
   Room    Room[]
 }
@@ -28,7 +28,7 @@ model User {
   currency     String        @default("usd")
   email        String        @unique
   address      Address?      @relation(fields: [addressId], references: [id])
-  room         Room[]
+  rooms        Room[]
   reviews      Review[]
   lists        List[]
   reservations Reservation[]
@@ -42,13 +42,14 @@ model User {
   phone        String?
   password     String?
   addressId    String?
+  isVerified   Boolean       @default(false)
 
 }
 
 model Room {
   id           String        @id @default(cuid())
-  host         User?         @relation(fields: [hostId], references: [id])
-  hostId       String?
+  host         User          @relation(fields: [hostId], references: [id])
+  hostId       String
   address      Address       @relation(fields: [addressId], references: [id])
   addressId    String
   roomType     RoomType      @relation(fields: [roomTypeId], references: [id])
@@ -168,4 +169,11 @@ model Photo {
 
   Room   Room?   @relation(fields: [roomId], references: [id])
   roomId String?
+}
+
+model Verification {
+  id  String  @id @default(cuid())
+  key String? @unique
+
+  payload String @unique
 }

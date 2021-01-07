@@ -11,6 +11,10 @@ dotenv.config()
 
 const port = process.env.PORT
 const prisma = new PrismaClient()
+
+export interface Context{
+  prisma:PrismaClient
+}
 const server = new ApolloServer({
   schema,
   context: {

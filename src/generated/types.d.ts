@@ -3,6 +3,7 @@ export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type RequireFields<T, K extends keyof T> = { [X in Exclude<keyof T, K>]?: T[X] } & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -12,9 +13,39 @@ export type Scalars = {
   Float: number;
 };
 
+export type CompletePhoneVerificationResponse = {
+  __typename?: 'completePhoneVerificationResponse';
+  ok: Scalars['Boolean'];
+  error?: Maybe<Scalars['String']>;
+};
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  completePhoneVerification: CompletePhoneVerificationResponse;
+  phoneVerification: PhoneVerificationResponse;
+};
+
+
+export type MutationCompletePhoneVerificationArgs = {
+  phoneNumber: Scalars['String'];
+  key: Scalars['String'];
+};
+
+
+export type MutationPhoneVerificationArgs = {
+  phoneNumber: Scalars['String'];
+};
+
+export type PhoneVerificationResponse = {
+  __typename?: 'phoneVerificationResponse';
+  ok: Scalars['Boolean'];
+  error?: Maybe<Scalars['String']>;
+  token?: Maybe<Scalars['String']>;
+};
+
 export type Query = {
   __typename?: 'Query';
-  hello?: Maybe<Scalars['String']>;
+  hello: Scalars['String'];
 };
 
 
@@ -95,23 +126,50 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
-  Query: ResolverTypeWrapper<{}>;
-  String: ResolverTypeWrapper<Scalars['String']>;
+  completePhoneVerificationResponse: ResolverTypeWrapper<CompletePhoneVerificationResponse>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  String: ResolverTypeWrapper<Scalars['String']>;
+  Mutation: ResolverTypeWrapper<{}>;
+  phoneVerificationResponse: ResolverTypeWrapper<PhoneVerificationResponse>;
+  Query: ResolverTypeWrapper<{}>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
-  Query: {};
-  String: Scalars['String'];
+  completePhoneVerificationResponse: CompletePhoneVerificationResponse;
   Boolean: Scalars['Boolean'];
+  String: Scalars['String'];
+  Mutation: {};
+  phoneVerificationResponse: PhoneVerificationResponse;
+  Query: {};
+};
+
+export type CompletePhoneVerificationResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['completePhoneVerificationResponse'] = ResolversParentTypes['completePhoneVerificationResponse']> = {
+  ok?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  completePhoneVerification?: Resolver<ResolversTypes['completePhoneVerificationResponse'], ParentType, ContextType, RequireFields<MutationCompletePhoneVerificationArgs, 'phoneNumber' | 'key'>>;
+  phoneVerification?: Resolver<ResolversTypes['phoneVerificationResponse'], ParentType, ContextType, RequireFields<MutationPhoneVerificationArgs, 'phoneNumber'>>;
+};
+
+export type PhoneVerificationResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['phoneVerificationResponse'] = ResolversParentTypes['phoneVerificationResponse']> = {
+  ok?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  hello?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  hello?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = any> = {
+  completePhoneVerificationResponse?: CompletePhoneVerificationResponseResolvers<ContextType>;
+  Mutation?: MutationResolvers<ContextType>;
+  phoneVerificationResponse?: PhoneVerificationResponseResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
 };
 

@@ -27,7 +27,8 @@
         "experimentalDecorators": true,
         "resolveJsonModule": true,
         "baseUrl": ".",
-        "strict": true
+        
+        
     },
     "exclude": [
         "node_modules"
