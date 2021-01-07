@@ -28,6 +28,7 @@ model User {
   currency     String        @default("usd")
   email        String        @unique
   address      Address?      @relation(fields: [addressId], references: [id])
+  addressId    String?
   rooms        Room[]
   reviews      Review[]
   lists        List[]
@@ -35,15 +36,13 @@ model User {
   chats        Chat[]
   messages     Message[]
   name         String
-  gender       String
+  gender       String        @default("other")
   avatar       String?
-  birthdate    DateTime?
+  birthDate    DateTime?
   bio          String?
   phone        String?
-  password     String?
-  addressId    String?
+  password     String
   isVerified   Boolean       @default(false)
-
 }
 
 model Room {

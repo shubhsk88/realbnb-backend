@@ -1,4 +1,4 @@
-import { GraphQLResolveInfo } from 'graphql';
+import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
@@ -11,6 +11,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  DateTime: any;
 };
 
 export type CompletePhoneVerificationResponse = {
@@ -22,6 +23,7 @@ export type CompletePhoneVerificationResponse = {
 export type Mutation = {
   __typename?: 'Mutation';
   completePhoneVerification: CompletePhoneVerificationResponse;
+  createUserViaPhone: CreateUserViaPhoneResponse;
   phoneVerification: PhoneVerificationResponse;
 };
 
@@ -32,8 +34,25 @@ export type MutationCompletePhoneVerificationArgs = {
 };
 
 
+export type MutationCreateUserViaPhoneArgs = {
+  email: Scalars['String'];
+  password: Scalars['String'];
+  name: Scalars['String'];
+  phone: Scalars['String'];
+  birthDate: Scalars['String'];
+};
+
+
 export type MutationPhoneVerificationArgs = {
   phoneNumber: Scalars['String'];
+};
+
+
+export type CreateUserViaPhoneResponse = {
+  __typename?: 'createUserViaPhoneResponse';
+  ok: Scalars['Boolean'];
+  error?: Maybe<Scalars['String']>;
+  token?: Maybe<Scalars['String']>;
 };
 
 export type PhoneVerificationResponse = {
@@ -130,6 +149,8 @@ export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   String: ResolverTypeWrapper<Scalars['String']>;
   Mutation: ResolverTypeWrapper<{}>;
+  DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
+  createUserViaPhoneResponse: ResolverTypeWrapper<CreateUserViaPhoneResponse>;
   phoneVerificationResponse: ResolverTypeWrapper<PhoneVerificationResponse>;
   Query: ResolverTypeWrapper<{}>;
 };
@@ -140,6 +161,8 @@ export type ResolversParentTypes = {
   Boolean: Scalars['Boolean'];
   String: Scalars['String'];
   Mutation: {};
+  DateTime: Scalars['DateTime'];
+  createUserViaPhoneResponse: CreateUserViaPhoneResponse;
   phoneVerificationResponse: PhoneVerificationResponse;
   Query: {};
 };
@@ -152,7 +175,19 @@ export type CompletePhoneVerificationResponseResolvers<ContextType = any, Parent
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   completePhoneVerification?: Resolver<ResolversTypes['completePhoneVerificationResponse'], ParentType, ContextType, RequireFields<MutationCompletePhoneVerificationArgs, 'phoneNumber' | 'key'>>;
+  createUserViaPhone?: Resolver<ResolversTypes['createUserViaPhoneResponse'], ParentType, ContextType, RequireFields<MutationCreateUserViaPhoneArgs, 'email' | 'password' | 'name' | 'phone' | 'birthDate'>>;
   phoneVerification?: Resolver<ResolversTypes['phoneVerificationResponse'], ParentType, ContextType, RequireFields<MutationPhoneVerificationArgs, 'phoneNumber'>>;
+};
+
+export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
+  name: 'DateTime';
+}
+
+export type CreateUserViaPhoneResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['createUserViaPhoneResponse'] = ResolversParentTypes['createUserViaPhoneResponse']> = {
+  ok?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type PhoneVerificationResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['phoneVerificationResponse'] = ResolversParentTypes['phoneVerificationResponse']> = {
@@ -169,6 +204,8 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 export type Resolvers<ContextType = any> = {
   completePhoneVerificationResponse?: CompletePhoneVerificationResponseResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
+  DateTime?: GraphQLScalarType;
+  createUserViaPhoneResponse?: CreateUserViaPhoneResponseResolvers<ContextType>;
   phoneVerificationResponse?: PhoneVerificationResponseResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
 };

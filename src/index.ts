@@ -15,6 +15,9 @@ const prisma = new PrismaClient()
 export interface Context{
   prisma:PrismaClient
 }
+
+export {prisma}
+
 const server = new ApolloServer({
   schema,
   context: {
