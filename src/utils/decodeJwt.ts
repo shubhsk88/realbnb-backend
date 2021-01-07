@@ -1,14 +1,22 @@
-import jsonwebtoken from "jsonwebtoken"
-import dotenv from "dotenv"
+import jsonwebtoken from 'jsonwebtoken'
+import dotenv from 'dotenv'
 import {prisma} from '../../src/index'
-import env from "./fetchEnv"
+import env from './fetchEnv'
 
 dotenv.config()
+
+export interface Token {
+  [key: string]: string
+}
 const decodeToken = (token: string) => {
   try {
-    return jsonwebtoken.verify(token, env(process.env.JWT_SECRET_KEY))
+    const {id} = jsonwebtoken.verify(
+      token,
+      env(process.env.JWT_SECRET_KEY),
+    ) as Token
+    return id
   } catch (error) {
-    console.log("Failed to verify token")
+    console.log('Failed to verify token')
     return undefined
   }
 }
@@ -17,10 +25,11 @@ const decodeUser = async (token: string) => {
   try {
     const id = decodeToken(token)
 
-    if(id) return await prisma.user.findUnique({ where: { id } })
+    if (id) return await prisma.user.findUnique({where: {id}})
     else return undefined
   } catch (error) {
-    console.log("Failed go find decoded user")
+    console.log('Failed go find decoded user')
+    return undefined
   }
 }
 

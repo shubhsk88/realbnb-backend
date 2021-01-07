@@ -36,7 +36,7 @@ model User {
   chats        Chat[]
   messages     Message[]
   name         String
-  gender       String        @default("other")
+  gender       String?       @default("other")
   avatar       String?
   birthDate    DateTime?
   bio          String?

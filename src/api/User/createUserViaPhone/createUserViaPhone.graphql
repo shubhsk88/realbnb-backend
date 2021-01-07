@@ -12,6 +12,6 @@ type Mutation {
     password: String!
     name: String!
     phone: String!
-    birthDate: String!
+    birthDate: String
   ): createUserViaPhoneResponse!
 }
