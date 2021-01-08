@@ -1,0 +1,16 @@
+scalar DateTime
+
+type createUserViaPhoneResponse {
+  ok: Boolean!
+  error: String
+  token: String
+}
+
+type Mutation {
+  createUserViaPhone(
+    email: String!
+    password: String!
+    name: String!
+    birthDate: String
+  ): createUserViaPhoneResponse!
+}

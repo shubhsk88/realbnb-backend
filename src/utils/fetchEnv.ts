@@ -1,4 +1,4 @@
-const env = (val: string | undefined): string => {
+export const env = (val: string | undefined): string => {
   return val || ''
 }
 

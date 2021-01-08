@@ -9,7 +9,7 @@ const resolvers: Resolvers = {
       const hashedPassword = encodePassword(password)
       try {
         const {id} = await context.prisma.user.create({
-          data: {...input, password: hashedPassword, isVerified: true},
+          data: {...input, password: hashedPassword},
         })
         return {ok: true, token: createToken(id)}
       } catch (error) {

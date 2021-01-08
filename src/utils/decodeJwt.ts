@@ -21,7 +21,7 @@ const decodeToken = (token: string) => {
   }
 }
 
-const decodeUser = async (token: string) => {
+export const decodeUser = async (token: string) => {
   try {
     const id = decodeToken(token)
 
@@ -33,4 +33,4 @@ const decodeUser = async (token: string) => {
   }
 }
 
-export default decodeUser
+
