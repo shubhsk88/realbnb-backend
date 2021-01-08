@@ -1,0 +1,26 @@
+type Room {
+  id: String!
+  host: User!
+  hostId: String!
+  address: Address!
+  roomType: RoomType!
+  roomTypeId: String!
+  amenities: [Amenity]!
+  houseRules: [HouseRule]!
+  facilities: [Facility]!
+  reviews: [Review]!
+  reservations: [Reservation]!
+  lists: [List]!
+  instantBook: Boolean!
+  price: Int!
+  photos: [Photo]!
+  beds: Int!
+  bedrooms: Int!
+  bathroom: Int!
+  guests: Int!
+  checkIn: DateTime!
+  checkOut: DateTime!
+  created: DateTime!
+  updated: DateTime!
+  description: String!
+}
