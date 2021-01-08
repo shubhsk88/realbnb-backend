@@ -10,7 +10,7 @@ const resolvers: Resolvers = {
             email,
           },
         })
-        if (user && comparePassword(password, user.password)) {
+        if (user && user.password && comparePassword(password, user.password)) {
           const token = createToken(user.id)
           return {
             ok: true,
