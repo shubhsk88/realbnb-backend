@@ -98,6 +98,18 @@ export type EmailSignUpResponse = {
   token?: Maybe<Scalars['String']>;
 };
 
+export type GetUserProfileResponse = {
+  __typename?: 'getUserProfileResponse';
+  ok: Scalars['Boolean'];
+  error?: Maybe<Scalars['String']>;
+  user?: Maybe<User>;
+};
+
+export type Query = {
+  __typename?: 'Query';
+  getUserProfile: GetUserProfileResponse;
+};
+
 export type GoogleSignInResponse = {
   __typename?: 'googleSignInResponse';
   ok: Scalars['Boolean'];
@@ -115,6 +127,172 @@ export type PhoneVerificationResponse = {
 export type RootQuery = {
   __typename?: 'RootQuery';
   hello: Scalars['String'];
+};
+
+export type Room = {
+  __typename?: 'Room';
+  id: Scalars['String'];
+  host: User;
+  hostId: Scalars['String'];
+  address: Address;
+  roomType: RoomType;
+  roomTypeId: Scalars['String'];
+  amenities: Array<Maybe<Amenity>>;
+  houseRules: Array<Maybe<HouseRule>>;
+  facilities: Array<Maybe<Facility>>;
+  reviews: Array<Maybe<Review>>;
+  reservations: Array<Maybe<Reservation>>;
+  lists: Array<Maybe<List>>;
+  instantBook: Scalars['Boolean'];
+  price: Scalars['Float'];
+  photos: Array<Maybe<Photo>>;
+  beds: Scalars['Int'];
+  bedrooms: Scalars['Int'];
+  bathroom: Scalars['Int'];
+  guests: Scalars['Int'];
+  checkIn: Scalars['DateTime'];
+  checkOut: Scalars['DateTime'];
+  created: Scalars['DateTime'];
+  updated: Scalars['DateTime'];
+  description: Scalars['String'];
+};
+
+export type Address = {
+  __typename?: 'Address';
+  id: Scalars['String'];
+  city: Scalars['String'];
+  country: Scalars['String'];
+  address: Scalars['String'];
+  User: Array<Maybe<User>>;
+  Room: Array<Maybe<Room>>;
+};
+
+export type User = {
+  __typename?: 'User';
+  id: Scalars['String'];
+  created: Scalars['DateTime'];
+  updated: Scalars['DateTime'];
+  superhost: Scalars['Boolean'];
+  language: Scalars['String'];
+  currency: Scalars['String'];
+  email: Scalars['String'];
+  address?: Maybe<Address>;
+  addressId?: Maybe<Scalars['String']>;
+  rooms: Array<Maybe<Room>>;
+  reviews: Array<Maybe<Review>>;
+  lists: Array<Maybe<List>>;
+  reservations: Array<Maybe<Reservation>>;
+  chats: Array<Maybe<Chat>>;
+  messages: Array<Maybe<Message>>;
+  name: Scalars['String'];
+  gender?: Maybe<Scalars['String']>;
+  avatar?: Maybe<Scalars['String']>;
+  birthDate?: Maybe<Scalars['DateTime']>;
+  bio?: Maybe<Scalars['String']>;
+  phone?: Maybe<Scalars['String']>;
+  isVerified?: Maybe<Scalars['Boolean']>;
+};
+
+export type RoomType = {
+  __typename?: 'RoomType';
+  id: Scalars['String'];
+  name: Scalars['String'];
+  room: Array<Maybe<Room>>;
+};
+
+export type Amenity = {
+  __typename?: 'Amenity';
+  id: Scalars['String'];
+  name: Scalars['String'];
+  room: Array<Maybe<Room>>;
+};
+
+export type HouseRule = {
+  __typename?: 'HouseRule';
+  id: Scalars['String'];
+  name: Scalars['String'];
+  room: Array<Maybe<Room>>;
+};
+
+export type Facility = {
+  __typename?: 'Facility';
+  id: Scalars['String'];
+  name: Scalars['String'];
+  room: Array<Maybe<Room>>;
+};
+
+export type Review = {
+  __typename?: 'Review';
+  id: Scalars['String'];
+  content: Scalars['String'];
+  created: Scalars['DateTime'];
+  updated: Scalars['DateTime'];
+  accuracy: Scalars['Int'];
+  location: Scalars['Int'];
+  communication: Scalars['Int'];
+  checkIn: Scalars['Int'];
+  value: Scalars['Int'];
+  User: User;
+  Room: Room;
+};
+
+export type Reservation = {
+  __typename?: 'Reservation';
+  id: Scalars['String'];
+  status: Scalars['String'];
+  checkIn: Scalars['DateTime'];
+  checkOut: Scalars['DateTime'];
+  created: Scalars['DateTime'];
+  updated: Scalars['DateTime'];
+  guest?: Maybe<User>;
+  Room?: Maybe<Room>;
+};
+
+export type List = {
+  __typename?: 'List';
+  id: Scalars['String'];
+  name: Scalars['String'];
+  created: Scalars['DateTime'];
+  updated: Scalars['DateTime'];
+  User?: Maybe<User>;
+  userId?: Maybe<Scalars['String']>;
+  rooms: Array<Maybe<Room>>;
+};
+
+export type Chat = {
+  __typename?: 'Chat';
+  id: Scalars['String'];
+  participations: Array<Maybe<User>>;
+  messages: Array<Maybe<Message>>;
+  created: Scalars['DateTime'];
+  updated: Scalars['DateTime'];
+  User?: Maybe<User>;
+  Chat?: Maybe<Chat>;
+};
+
+export type Message = {
+  __typename?: 'Message';
+  id: Scalars['String'];
+  text: Scalars['String'];
+  created: Scalars['DateTime'];
+  updated: Scalars['DateTime'];
+  User?: Maybe<User>;
+  Chat?: Maybe<Chat>;
+};
+
+export type Photo = {
+  __typename?: 'Photo';
+  id: Scalars['String'];
+  caption: Scalars['String'];
+  link: Scalars['String'];
+  Room?: Maybe<Room>;
+};
+
+export type Verification = {
+  __typename?: 'Verification';
+  id: Scalars['String'];
+  key?: Maybe<Scalars['String']>;
+  payload: Scalars['String'];
 };
 
 
@@ -203,9 +381,27 @@ export type ResolversTypes = {
   createUserViaPhoneResponse: ResolverTypeWrapper<any>;
   emailSignInResponse: ResolverTypeWrapper<any>;
   emailSignUpResponse: ResolverTypeWrapper<any>;
+  getUserProfileResponse: ResolverTypeWrapper<any>;
+  Query: ResolverTypeWrapper<any>;
   googleSignInResponse: ResolverTypeWrapper<any>;
   phoneVerificationResponse: ResolverTypeWrapper<any>;
   RootQuery: ResolverTypeWrapper<{}>;
+  Room: ResolverTypeWrapper<any>;
+  Float: ResolverTypeWrapper<any>;
+  Int: ResolverTypeWrapper<any>;
+  Address: ResolverTypeWrapper<any>;
+  User: ResolverTypeWrapper<any>;
+  RoomType: ResolverTypeWrapper<any>;
+  Amenity: ResolverTypeWrapper<any>;
+  HouseRule: ResolverTypeWrapper<any>;
+  Facility: ResolverTypeWrapper<any>;
+  Review: ResolverTypeWrapper<any>;
+  Reservation: ResolverTypeWrapper<any>;
+  List: ResolverTypeWrapper<any>;
+  Chat: ResolverTypeWrapper<any>;
+  Message: ResolverTypeWrapper<any>;
+  Photo: ResolverTypeWrapper<any>;
+  Verification: ResolverTypeWrapper<any>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -218,9 +414,27 @@ export type ResolversParentTypes = {
   createUserViaPhoneResponse: any;
   emailSignInResponse: any;
   emailSignUpResponse: any;
+  getUserProfileResponse: any;
+  Query: any;
   googleSignInResponse: any;
   phoneVerificationResponse: any;
   RootQuery: {};
+  Room: any;
+  Float: any;
+  Int: any;
+  Address: any;
+  User: any;
+  RoomType: any;
+  Amenity: any;
+  HouseRule: any;
+  Facility: any;
+  Review: any;
+  Reservation: any;
+  List: any;
+  Chat: any;
+  Message: any;
+  Photo: any;
+  Verification: any;
 };
 
 export type CompletePhoneVerificationResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['completePhoneVerificationResponse'] = ResolversParentTypes['completePhoneVerificationResponse']> = {
@@ -263,6 +477,18 @@ export type EmailSignUpResponseResolvers<ContextType = Context, ParentType exten
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type GetUserProfileResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['getUserProfileResponse'] = ResolversParentTypes['getUserProfileResponse']> = {
+  ok?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  getUserProfile?: Resolver<ResolversTypes['getUserProfileResponse'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type GoogleSignInResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['googleSignInResponse'] = ResolversParentTypes['googleSignInResponse']> = {
   ok?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -281,6 +507,172 @@ export type RootQueryResolvers<ContextType = Context, ParentType extends Resolve
   hello?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 };
 
+export type RoomResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Room'] = ResolversParentTypes['Room']> = {
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  host?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  hostId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  address?: Resolver<ResolversTypes['Address'], ParentType, ContextType>;
+  roomType?: Resolver<ResolversTypes['RoomType'], ParentType, ContextType>;
+  roomTypeId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  amenities?: Resolver<Array<Maybe<ResolversTypes['Amenity']>>, ParentType, ContextType>;
+  houseRules?: Resolver<Array<Maybe<ResolversTypes['HouseRule']>>, ParentType, ContextType>;
+  facilities?: Resolver<Array<Maybe<ResolversTypes['Facility']>>, ParentType, ContextType>;
+  reviews?: Resolver<Array<Maybe<ResolversTypes['Review']>>, ParentType, ContextType>;
+  reservations?: Resolver<Array<Maybe<ResolversTypes['Reservation']>>, ParentType, ContextType>;
+  lists?: Resolver<Array<Maybe<ResolversTypes['List']>>, ParentType, ContextType>;
+  instantBook?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  price?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  photos?: Resolver<Array<Maybe<ResolversTypes['Photo']>>, ParentType, ContextType>;
+  beds?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  bedrooms?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  bathroom?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  guests?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  checkIn?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  checkOut?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  created?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  updated?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type AddressResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Address'] = ResolversParentTypes['Address']> = {
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  city?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  country?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  address?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  User?: Resolver<Array<Maybe<ResolversTypes['User']>>, ParentType, ContextType>;
+  Room?: Resolver<Array<Maybe<ResolversTypes['Room']>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type UserResolvers<ContextType = Context, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  created?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  updated?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  superhost?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  language?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  currency?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  address?: Resolver<Maybe<ResolversTypes['Address']>, ParentType, ContextType>;
+  addressId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  rooms?: Resolver<Array<Maybe<ResolversTypes['Room']>>, ParentType, ContextType>;
+  reviews?: Resolver<Array<Maybe<ResolversTypes['Review']>>, ParentType, ContextType>;
+  lists?: Resolver<Array<Maybe<ResolversTypes['List']>>, ParentType, ContextType>;
+  reservations?: Resolver<Array<Maybe<ResolversTypes['Reservation']>>, ParentType, ContextType>;
+  chats?: Resolver<Array<Maybe<ResolversTypes['Chat']>>, ParentType, ContextType>;
+  messages?: Resolver<Array<Maybe<ResolversTypes['Message']>>, ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  gender?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  avatar?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  birthDate?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  bio?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  phone?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  isVerified?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type RoomTypeResolvers<ContextType = Context, ParentType extends ResolversParentTypes['RoomType'] = ResolversParentTypes['RoomType']> = {
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  room?: Resolver<Array<Maybe<ResolversTypes['Room']>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type AmenityResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Amenity'] = ResolversParentTypes['Amenity']> = {
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  room?: Resolver<Array<Maybe<ResolversTypes['Room']>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type HouseRuleResolvers<ContextType = Context, ParentType extends ResolversParentTypes['HouseRule'] = ResolversParentTypes['HouseRule']> = {
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  room?: Resolver<Array<Maybe<ResolversTypes['Room']>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type FacilityResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Facility'] = ResolversParentTypes['Facility']> = {
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  room?: Resolver<Array<Maybe<ResolversTypes['Room']>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ReviewResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Review'] = ResolversParentTypes['Review']> = {
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  created?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  updated?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  accuracy?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  location?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  communication?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  checkIn?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  value?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  User?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  Room?: Resolver<ResolversTypes['Room'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ReservationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Reservation'] = ResolversParentTypes['Reservation']> = {
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  checkIn?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  checkOut?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  created?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  updated?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  guest?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  Room?: Resolver<Maybe<ResolversTypes['Room']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ListResolvers<ContextType = Context, ParentType extends ResolversParentTypes['List'] = ResolversParentTypes['List']> = {
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  created?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  updated?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  User?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  userId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  rooms?: Resolver<Array<Maybe<ResolversTypes['Room']>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ChatResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Chat'] = ResolversParentTypes['Chat']> = {
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  participations?: Resolver<Array<Maybe<ResolversTypes['User']>>, ParentType, ContextType>;
+  messages?: Resolver<Array<Maybe<ResolversTypes['Message']>>, ParentType, ContextType>;
+  created?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  updated?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  User?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  Chat?: Resolver<Maybe<ResolversTypes['Chat']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type MessageResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Message'] = ResolversParentTypes['Message']> = {
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  text?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  created?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  updated?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  User?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  Chat?: Resolver<Maybe<ResolversTypes['Chat']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type PhotoResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Photo'] = ResolversParentTypes['Photo']> = {
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  caption?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  link?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  Room?: Resolver<Maybe<ResolversTypes['Room']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type VerificationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Verification'] = ResolversParentTypes['Verification']> = {
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  key?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  payload?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type Resolvers<ContextType = Context> = {
   completePhoneVerificationResponse?: CompletePhoneVerificationResponseResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
@@ -288,9 +680,25 @@ export type Resolvers<ContextType = Context> = {
   createUserViaPhoneResponse?: CreateUserViaPhoneResponseResolvers<ContextType>;
   emailSignInResponse?: EmailSignInResponseResolvers<ContextType>;
   emailSignUpResponse?: EmailSignUpResponseResolvers<ContextType>;
+  getUserProfileResponse?: GetUserProfileResponseResolvers<ContextType>;
+  Query?: QueryResolvers<ContextType>;
   googleSignInResponse?: GoogleSignInResponseResolvers<ContextType>;
   phoneVerificationResponse?: PhoneVerificationResponseResolvers<ContextType>;
   RootQuery?: RootQueryResolvers<ContextType>;
+  Room?: RoomResolvers<ContextType>;
+  Address?: AddressResolvers<ContextType>;
+  User?: UserResolvers<ContextType>;
+  RoomType?: RoomTypeResolvers<ContextType>;
+  Amenity?: AmenityResolvers<ContextType>;
+  HouseRule?: HouseRuleResolvers<ContextType>;
+  Facility?: FacilityResolvers<ContextType>;
+  Review?: ReviewResolvers<ContextType>;
+  Reservation?: ReservationResolvers<ContextType>;
+  List?: ListResolvers<ContextType>;
+  Chat?: ChatResolvers<ContextType>;
+  Message?: MessageResolvers<ContextType>;
+  Photo?: PhotoResolvers<ContextType>;
+  Verification?: VerificationResolvers<ContextType>;
 };
 
 
