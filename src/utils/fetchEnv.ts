@@ -1,5 +1,9 @@
-export const env = (val: string | undefined): string => {
-  return val || ''
+import dotenv from 'dotenv'
+
+dotenv.config()
+
+export const env = (val: string): string => {
+  return process.env[val] || ''
 }
 
 export default env

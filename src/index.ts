@@ -6,6 +6,8 @@ import {ApolloServer} from 'apollo-server-express'
 import dotenv from 'dotenv'
 import schema from './schema'
 import {PrismaClient} from '@prisma/client'
+import expressJwt from "express-jwt"
+import { env, decodeUser } from "@/src/utils"
 
 dotenv.config()
 
@@ -20,14 +22,20 @@ export {prisma}
 
 const server = new ApolloServer({
   schema,
-  context: {
-    prisma,
-  },
+  context: async ({ req: Req }) => {
+    const user = await decodeUser(req.user.id)
+    return { prisma, user }
+  }
 })
 const app = express()
 app.use(cors())
 app.use(helmet())
 app.use(morgan('dev'))
+app.use(expressJwt({
+  secret: env('JWT_SECRET_KEY'),
+  credentialsRequired: false,
+  algorithms: ["HS256"]
+}))
 server.applyMiddleware({app, cors: false})
 
 app.listen(port, () => console.log(`Server running on ${port}  🚀 `))
