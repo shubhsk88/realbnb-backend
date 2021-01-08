@@ -4,9 +4,13 @@ type phoneVerificationResponse {
   token: String
 }
 
-type Query{
-  hello:String!
+type Query {
+  hello: String!
 }
 type Mutation {
   phoneVerification(phoneNumber: String!): phoneVerificationResponse!
+}
+
+query Hello {
+  hello
 }

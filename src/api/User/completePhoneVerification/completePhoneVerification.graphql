@@ -9,3 +9,4 @@ type Mutation {
     key: String!
   ): completePhoneVerificationResponse!
 }
+

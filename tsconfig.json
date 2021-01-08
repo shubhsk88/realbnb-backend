@@ -36,5 +36,5 @@
     "include": [
         "./src/**/*.tsx",
         "./src/**/*.ts"
-    ]
+, "types/customTypes.ts"    ]
 }
