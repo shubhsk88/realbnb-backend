@@ -6,6 +6,6 @@ export const encodePassword = (password: string) => {
   return hash
 }
 
-export const decodePassword = (inputPassword: string, hash: string) => {
+export const comparePassword = (inputPassword: string, hash: string) => {
   return bcrypt.compareSync(inputPassword, hash)
 }

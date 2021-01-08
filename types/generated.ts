@@ -28,6 +28,8 @@ export type Mutation = {
   __typename?: 'Mutation';
   completePhoneVerification: CompletePhoneVerificationResponse;
   createUserViaPhone: CreateUserViaPhoneResponse;
+  emailSignIn: EmailSignInResponse;
+  emailSignUp: EmailSignUpResponse;
   phoneVerification: PhoneVerificationResponse;
 };
 
@@ -47,6 +49,20 @@ export type MutationCreateUserViaPhoneArgs = {
 };
 
 
+export type MutationEmailSignInArgs = {
+  email: Scalars['String'];
+  password: Scalars['String'];
+};
+
+
+export type MutationEmailSignUpArgs = {
+  email: Scalars['String'];
+  password: Scalars['String'];
+  name: Scalars['String'];
+  birthDate?: Maybe<Scalars['String']>;
+};
+
+
 export type MutationPhoneVerificationArgs = {
   phoneNumber: Scalars['String'];
 };
@@ -59,6 +75,20 @@ export type CreateUserViaPhoneResponse = {
   token?: Maybe<Scalars['String']>;
 };
 
+export type EmailSignInResponse = {
+  __typename?: 'emailSignInResponse';
+  ok: Scalars['Boolean'];
+  error?: Maybe<Scalars['String']>;
+  token?: Maybe<Scalars['String']>;
+};
+
+export type EmailSignUpResponse = {
+  __typename?: 'emailSignUpResponse';
+  ok: Scalars['Boolean'];
+  error?: Maybe<Scalars['String']>;
+  token?: Maybe<Scalars['String']>;
+};
+
 export type PhoneVerificationResponse = {
   __typename?: 'phoneVerificationResponse';
   ok: Scalars['Boolean'];
@@ -66,8 +96,8 @@ export type PhoneVerificationResponse = {
   token?: Maybe<Scalars['String']>;
 };
 
-export type Query = {
-  __typename?: 'Query';
+export type RootQuery = {
+  __typename?: 'RootQuery';
   hello: Scalars['String'];
 };
 
@@ -155,8 +185,10 @@ export type ResolversTypes = {
   Mutation: ResolverTypeWrapper<{}>;
   DateTime: ResolverTypeWrapper<any>;
   createUserViaPhoneResponse: ResolverTypeWrapper<any>;
+  emailSignInResponse: ResolverTypeWrapper<any>;
+  emailSignUpResponse: ResolverTypeWrapper<any>;
   phoneVerificationResponse: ResolverTypeWrapper<any>;
-  Query: ResolverTypeWrapper<{}>;
+  RootQuery: ResolverTypeWrapper<{}>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -167,8 +199,10 @@ export type ResolversParentTypes = {
   Mutation: {};
   DateTime: any;
   createUserViaPhoneResponse: any;
+  emailSignInResponse: any;
+  emailSignUpResponse: any;
   phoneVerificationResponse: any;
-  Query: {};
+  RootQuery: {};
 };
 
 export type CompletePhoneVerificationResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['completePhoneVerificationResponse'] = ResolversParentTypes['completePhoneVerificationResponse']> = {
@@ -180,6 +214,8 @@ export type CompletePhoneVerificationResponseResolvers<ContextType = Context, Pa
 export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   completePhoneVerification?: Resolver<ResolversTypes['completePhoneVerificationResponse'], ParentType, ContextType, RequireFields<MutationCompletePhoneVerificationArgs, 'phoneNumber' | 'key'>>;
   createUserViaPhone?: Resolver<ResolversTypes['createUserViaPhoneResponse'], ParentType, ContextType, RequireFields<MutationCreateUserViaPhoneArgs, 'email' | 'password' | 'name' | 'phone'>>;
+  emailSignIn?: Resolver<ResolversTypes['emailSignInResponse'], ParentType, ContextType, RequireFields<MutationEmailSignInArgs, 'email' | 'password'>>;
+  emailSignUp?: Resolver<ResolversTypes['emailSignUpResponse'], ParentType, ContextType, RequireFields<MutationEmailSignUpArgs, 'email' | 'password' | 'name'>>;
   phoneVerification?: Resolver<ResolversTypes['phoneVerificationResponse'], ParentType, ContextType, RequireFields<MutationPhoneVerificationArgs, 'phoneNumber'>>;
 };
 
@@ -194,6 +230,20 @@ export type CreateUserViaPhoneResponseResolvers<ContextType = Context, ParentTyp
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type EmailSignInResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['emailSignInResponse'] = ResolversParentTypes['emailSignInResponse']> = {
+  ok?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type EmailSignUpResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['emailSignUpResponse'] = ResolversParentTypes['emailSignUpResponse']> = {
+  ok?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type PhoneVerificationResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['phoneVerificationResponse'] = ResolversParentTypes['phoneVerificationResponse']> = {
   ok?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -201,7 +251,7 @@ export type PhoneVerificationResponseResolvers<ContextType = Context, ParentType
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+export type RootQueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['RootQuery'] = ResolversParentTypes['RootQuery']> = {
   hello?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 };
 
@@ -210,8 +260,10 @@ export type Resolvers<ContextType = Context> = {
   Mutation?: MutationResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
   createUserViaPhoneResponse?: CreateUserViaPhoneResponseResolvers<ContextType>;
+  emailSignInResponse?: EmailSignInResponseResolvers<ContextType>;
+  emailSignUpResponse?: EmailSignUpResponseResolvers<ContextType>;
   phoneVerificationResponse?: PhoneVerificationResponseResolvers<ContextType>;
-  Query?: QueryResolvers<ContextType>;
+  RootQuery?: RootQueryResolvers<ContextType>;
 };
 
 
@@ -225,8 +277,8 @@ export type HelloQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type HelloQuery = (
-  { __typename?: 'Query' }
-  & Pick<Query, 'hello'>
+  { __typename?: 'RootQuery' }
+  & Pick<RootQuery, 'hello'>
 );
 
 
