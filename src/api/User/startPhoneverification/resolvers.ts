@@ -1,17 +1,9 @@
-import {createSms} from '../../../utils'
-import {Resolvers, PhoneVerificationResponse} from '../../../generated/types'
-import {Context} from '../../../index'
+import {createSms} from '@/src/utils'
+import {Resolvers} from '@/types/generated'
 
 const resolvers: Resolvers = {
-  Query: {
-    hello: () => 'Hello',
-  },
   Mutation: {
-    phoneVerification: async (
-      _,
-      {phoneNumber},
-      context: Context,
-    ): Promise<PhoneVerificationResponse> => {
+    phoneVerification: async (_, {phoneNumber}, context) => {
       try {
         const key = await createSms(phoneNumber)
         const exist = await context.prisma.verification.findUnique({

@@ -12,8 +12,8 @@ dotenv.config()
 const port = process.env.PORT
 const prisma = new PrismaClient()
 
-export interface Context{
-  prisma:PrismaClient
+export interface Context {
+  prisma: PrismaClient
 }
 
 export {prisma}

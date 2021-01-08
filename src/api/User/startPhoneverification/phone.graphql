@@ -4,8 +4,12 @@ type phoneVerificationResponse {
   token: String
 }
 
-type Query {
+type RootQuery {
   hello: String!
+}
+
+schema {
+  query: RootQuery
 }
 type Mutation {
   phoneVerification(phoneNumber: String!): phoneVerificationResponse!

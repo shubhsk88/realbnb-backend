@@ -1,6 +1,6 @@
 import {DateTimeResolver} from 'graphql-scalars'
-import {encodePassword, createToken} from 'src/utils'
-import {Resolvers} from 'types/generated'
+import {encodePassword, createToken} from '@/src/utils'
+import {Resolvers} from '@/types/generated'
 
 const resolvers: Resolvers = {
   DateTime: DateTimeResolver,

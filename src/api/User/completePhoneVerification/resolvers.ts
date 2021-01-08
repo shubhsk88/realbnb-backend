@@ -1,10 +1,9 @@
-import {Resolvers} from 'types/generated'
+import {Resolvers} from '@/types/generated'
 
 const resolvers: Resolvers = {
   Mutation: {
     completePhoneVerification: async (_, {phoneNumber, key}, context) => {
       try {
-        
         const foundNumber = await context.prisma.verification.findUnique({
           where: {payload: phoneNumber},
         })
