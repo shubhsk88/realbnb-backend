@@ -166,7 +166,6 @@ model Photo {
   id      String @id @default(cuid())
   caption String
   link    String
-
   Room   Room?   @relation(fields: [roomId], references: [id])
   roomId String?
 }
@@ -174,6 +173,5 @@ model Photo {
 model Verification {
   id  String  @id @default(cuid())
   key String? @unique
-
   payload String @unique
 }

@@ -1,0 +1,148 @@
+type Room {
+  id: String!
+  host: User!
+  hostId: String!
+  address: Address!
+  roomType: RoomType!
+  roomTypeId: String!
+  amenities: [Amenity]!
+  houseRules: [HouseRule]!
+  facilities: [Facility]!
+  reviews: [Review]!
+  reservations: [Reservation]!
+  lists: [List]!
+  instantBook: Boolean!
+  price: Float!
+  photos: [Photo]!
+  beds: Int!
+  bedrooms: Int!
+  bathroom: Int!
+  guests: Int!
+  checkIn: DateTime!
+  checkOut: DateTime!
+  created: DateTime!
+  updated: DateTime!
+  description: String!
+}
+
+type Address {
+  id: String!
+  city: String!
+  country: String!
+  address: String!
+  User: [User]!
+  Room: [Room]!
+}
+scalar DateTime
+type User {
+  id: String!
+  created: DateTime!
+  updated: DateTime!
+  superhost: Boolean!
+  language: String!
+  currency: String!
+  email: String!
+  address: Address
+  addressId: String
+  rooms: [Room]!
+  reviews: [Review]!
+  lists: [List]!
+  reservations: [Reservation]!
+  chats: [Chat]!
+  messages: [Message]!
+  name: String!
+  gender: String
+  avatar: String
+  birthDate: DateTime
+  bio: String
+  phone: String
+  isVerified: Boolean
+}
+
+type RoomType {
+  id: String!
+  name: String!
+  room: [Room]!
+}
+type Amenity {
+  id: String!
+  name: String!
+  room: [Room]!
+}
+type HouseRule {
+  id: String!
+  name: String!
+  room: [Room]!
+}
+
+type Facility {
+  id: String!
+  name: String!
+  room: [Room]!
+}
+type Review {
+  id: String!
+  content: String!
+  created: DateTime!
+  updated: DateTime!
+  accuracy: Int!
+  location: Int!
+  communication: Int!
+  checkIn: Int!
+  value: Int!
+  User: User!
+  Room: Room!
+}
+
+type Reservation {
+  id: String!
+  status: String!
+  checkIn: DateTime!
+  checkOut: DateTime!
+  created: DateTime!
+  updated: DateTime!
+  guest: User
+  Room: Room
+}
+
+type List {
+  id: String!
+  name: String!
+  created: DateTime!
+  updated: DateTime!
+  User: User
+  userId: String
+  rooms: [Room]!
+}
+
+type Chat {
+  id: String!
+  participations: [User]!
+  messages: [Message]!
+  created: DateTime!
+  updated: DateTime!
+  User: User
+  Chat: Chat
+}
+
+type Message {
+  id: String!
+  text: String!
+  created: DateTime!
+  updated: DateTime!
+  User: User
+  Chat: Chat
+}
+
+type Photo {
+  id: String!
+  caption: String!
+  link: String!
+  Room: Room
+}
+
+type Verification {
+  id: String!
+  key: String
+  payload: String!
+}

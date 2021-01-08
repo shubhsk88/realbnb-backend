@@ -1,8 +1,0 @@
-type Address {
-  id: String!
-  city: String!
-  country: String!
-  address: String!
-  User: [User]!
-  Room: [Room]!
-}
