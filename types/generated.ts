@@ -28,6 +28,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   completePhoneVerification: CompletePhoneVerificationResponse;
   createUserViaPhone: CreateUserViaPhoneResponse;
+  editProfile: EditProfileResponse;
   emailSignIn: EmailSignInResponse;
   emailSignUp: EmailSignUpResponse;
   googleSignIn: GoogleSignInResponse;
@@ -47,6 +48,17 @@ export type MutationCreateUserViaPhoneArgs = {
   name: Scalars['String'];
   phone: Scalars['String'];
   birthDate?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationEditProfileArgs = {
+  name: Scalars['String'];
+  gender: Scalars['String'];
+  address?: Maybe<Scalars['String']>;
+  phone?: Maybe<Scalars['String']>;
+  birthDate?: Maybe<Scalars['String']>;
+  language?: Maybe<Scalars['String']>;
+  currency?: Maybe<Scalars['String']>;
 };
 
 
@@ -84,6 +96,12 @@ export type CreateUserViaPhoneResponse = {
   token?: Maybe<Scalars['String']>;
 };
 
+export type EditProfileResponse = {
+  __typename?: 'EditProfileResponse';
+  ok: Scalars['Boolean'];
+  error?: Maybe<Scalars['String']>;
+};
+
 export type EmailSignInResponse = {
   __typename?: 'emailSignInResponse';
   ok: Scalars['Boolean'];
@@ -108,6 +126,7 @@ export type GetUserProfileResponse = {
 export type Query = {
   __typename?: 'Query';
   getUserProfile: GetUserProfileResponse;
+  hello?: Maybe<Scalars['String']>;
 };
 
 export type GoogleSignInResponse = {
@@ -122,11 +141,6 @@ export type PhoneVerificationResponse = {
   ok: Scalars['Boolean'];
   error?: Maybe<Scalars['String']>;
   token?: Maybe<Scalars['String']>;
-};
-
-export type RootQuery = {
-  __typename?: 'RootQuery';
-  hello: Scalars['String'];
 };
 
 export type Room = {
@@ -379,13 +393,13 @@ export type ResolversTypes = {
   Mutation: ResolverTypeWrapper<{}>;
   DateTime: ResolverTypeWrapper<any>;
   createUserViaPhoneResponse: ResolverTypeWrapper<any>;
+  EditProfileResponse: ResolverTypeWrapper<any>;
   emailSignInResponse: ResolverTypeWrapper<any>;
   emailSignUpResponse: ResolverTypeWrapper<any>;
   getUserProfileResponse: ResolverTypeWrapper<any>;
-  Query: ResolverTypeWrapper<any>;
+  Query: ResolverTypeWrapper<{}>;
   googleSignInResponse: ResolverTypeWrapper<any>;
   phoneVerificationResponse: ResolverTypeWrapper<any>;
-  RootQuery: ResolverTypeWrapper<{}>;
   Room: ResolverTypeWrapper<any>;
   Float: ResolverTypeWrapper<any>;
   Int: ResolverTypeWrapper<any>;
@@ -412,13 +426,13 @@ export type ResolversParentTypes = {
   Mutation: {};
   DateTime: any;
   createUserViaPhoneResponse: any;
+  EditProfileResponse: any;
   emailSignInResponse: any;
   emailSignUpResponse: any;
   getUserProfileResponse: any;
-  Query: any;
+  Query: {};
   googleSignInResponse: any;
   phoneVerificationResponse: any;
-  RootQuery: {};
   Room: any;
   Float: any;
   Int: any;
@@ -446,6 +460,7 @@ export type CompletePhoneVerificationResponseResolvers<ContextType = Context, Pa
 export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   completePhoneVerification?: Resolver<ResolversTypes['completePhoneVerificationResponse'], ParentType, ContextType, RequireFields<MutationCompletePhoneVerificationArgs, 'phoneNumber' | 'key'>>;
   createUserViaPhone?: Resolver<ResolversTypes['createUserViaPhoneResponse'], ParentType, ContextType, RequireFields<MutationCreateUserViaPhoneArgs, 'email' | 'password' | 'name' | 'phone'>>;
+  editProfile?: Resolver<ResolversTypes['EditProfileResponse'], ParentType, ContextType, RequireFields<MutationEditProfileArgs, 'name' | 'gender'>>;
   emailSignIn?: Resolver<ResolversTypes['emailSignInResponse'], ParentType, ContextType, RequireFields<MutationEmailSignInArgs, 'email' | 'password'>>;
   emailSignUp?: Resolver<ResolversTypes['emailSignUpResponse'], ParentType, ContextType, RequireFields<MutationEmailSignUpArgs, 'email' | 'password' | 'name'>>;
   googleSignIn?: Resolver<ResolversTypes['googleSignInResponse'], ParentType, ContextType, RequireFields<MutationGoogleSignInArgs, 'email' | 'avatar' | 'name' | 'googleId'>>;
@@ -460,6 +475,12 @@ export type CreateUserViaPhoneResponseResolvers<ContextType = Context, ParentTyp
   ok?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type EditProfileResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['EditProfileResponse'] = ResolversParentTypes['EditProfileResponse']> = {
+  ok?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -486,7 +507,7 @@ export type GetUserProfileResponseResolvers<ContextType = Context, ParentType ex
 
 export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   getUserProfile?: Resolver<ResolversTypes['getUserProfileResponse'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+  hello?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 };
 
 export type GoogleSignInResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['googleSignInResponse'] = ResolversParentTypes['googleSignInResponse']> = {
@@ -501,10 +522,6 @@ export type PhoneVerificationResponseResolvers<ContextType = Context, ParentType
   error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type RootQueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['RootQuery'] = ResolversParentTypes['RootQuery']> = {
-  hello?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 };
 
 export type RoomResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Room'] = ResolversParentTypes['Room']> = {
@@ -678,13 +695,13 @@ export type Resolvers<ContextType = Context> = {
   Mutation?: MutationResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
   createUserViaPhoneResponse?: CreateUserViaPhoneResponseResolvers<ContextType>;
+  EditProfileResponse?: EditProfileResponseResolvers<ContextType>;
   emailSignInResponse?: EmailSignInResponseResolvers<ContextType>;
   emailSignUpResponse?: EmailSignUpResponseResolvers<ContextType>;
   getUserProfileResponse?: GetUserProfileResponseResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   googleSignInResponse?: GoogleSignInResponseResolvers<ContextType>;
   phoneVerificationResponse?: PhoneVerificationResponseResolvers<ContextType>;
-  RootQuery?: RootQueryResolvers<ContextType>;
   Room?: RoomResolvers<ContextType>;
   Address?: AddressResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
@@ -712,8 +729,8 @@ export type HelloQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type HelloQuery = (
-  { __typename?: 'RootQuery' }
-  & Pick<RootQuery, 'hello'>
+  { __typename?: 'Query' }
+  & Pick<Query, 'hello'>
 );
 
 

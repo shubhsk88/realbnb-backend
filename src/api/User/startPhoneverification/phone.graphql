@@ -7,6 +7,10 @@ type phoneVerificationResponse {
 schema {
   query: Query
 }
+
+type Query {
+  hello: String
+}
 type Mutation {
   phoneVerification(phoneNumber: String!): phoneVerificationResponse!
 }
