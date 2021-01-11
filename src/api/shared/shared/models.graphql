@@ -33,6 +33,7 @@ type Address {
   User: [User]!
   Room: [Room]!
 }
+
 scalar DateTime
 type User {
   id: String!
@@ -64,11 +65,7 @@ type RoomType {
   name: String!
   room: [Room]!
 }
-type Amenity {
-  id: String!
-  name: String!
-  room: [Room]!
-}
+
 type HouseRule {
   id: String!
   name: String!

@@ -15,6 +15,7 @@ const resolvers: Resolvers = {
           ...nonNullable(args),
           address: {
             upsert: {
+              // FIXME: proper address editing
               update: {
                 address: address || '',
               },
@@ -27,23 +28,6 @@ const resolvers: Resolvers = {
           },
         },
       })
-
-      /* if(address && user.addressId) {
-        await prisma.user.update({
-          where: {
-            id: user.id
-          },
-          data: {
-            address: {
-              update: {
-                address: address || '',
-              },
-            },
-          }
-        })
-      } else {
-        await prisma.user.creat
-      } */
 
       return { ok: true }
     },

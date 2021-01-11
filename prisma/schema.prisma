@@ -53,7 +53,7 @@ model Room {
   address      Address       @relation(fields: [addressId], references: [id])
   addressId    String
   roomType     RoomType      @relation(fields: [roomTypeId], references: [id])
-  roomTypeId   String
+  roomTypeId   Int
   amenities    Amenity[]     @relation(references: [id])
   houseRules   HouseRule[]   @relation(references: [id])
   facilities   Facility[]    @relation(references: [id])
@@ -73,30 +73,28 @@ model Room {
   created      DateTime      @default(now())
   updated      DateTime      @default(now())
   description  String?
-
-
 }
 
 model RoomType {
-  id   String @id @default(cuid())
+  id   Int    @id @default(autoincrement())
   name String
   room Room[]
 }
 
 model Amenity {
-  id    String @id @default(cuid())
+  id    Int    @id @default(autoincrement())
   name  String
   rooms Room[] @relation(references: [id])
 }
 
 model HouseRule {
-  id    String @id @default(cuid())
+  id    Int    @id @default(autoincrement())
   name  String
   rooms Room[] @relation(references: [id])
 }
 
 model Facility {
-  id    String @id @default(cuid())
+  id    Int    @id @default(autoincrement())
   name  String
   rooms Room[] @relation(references: [id])
 }
