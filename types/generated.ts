@@ -52,8 +52,8 @@ export type MutationCreateUserViaPhoneArgs = {
 
 
 export type MutationEditProfileArgs = {
-  name: Scalars['String'];
-  gender: Scalars['String'];
+  name?: Maybe<Scalars['String']>;
+  gender?: Maybe<Scalars['String']>;
   address?: Maybe<Scalars['String']>;
   phone?: Maybe<Scalars['String']>;
   birthDate?: Maybe<Scalars['String']>;
@@ -460,7 +460,7 @@ export type CompletePhoneVerificationResponseResolvers<ContextType = Context, Pa
 export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   completePhoneVerification?: Resolver<ResolversTypes['completePhoneVerificationResponse'], ParentType, ContextType, RequireFields<MutationCompletePhoneVerificationArgs, 'phoneNumber' | 'key'>>;
   createUserViaPhone?: Resolver<ResolversTypes['createUserViaPhoneResponse'], ParentType, ContextType, RequireFields<MutationCreateUserViaPhoneArgs, 'email' | 'password' | 'name' | 'phone'>>;
-  editProfile?: Resolver<ResolversTypes['EditProfileResponse'], ParentType, ContextType, RequireFields<MutationEditProfileArgs, 'name' | 'gender'>>;
+  editProfile?: Resolver<ResolversTypes['EditProfileResponse'], ParentType, ContextType, RequireFields<MutationEditProfileArgs, never>>;
   emailSignIn?: Resolver<ResolversTypes['emailSignInResponse'], ParentType, ContextType, RequireFields<MutationEmailSignInArgs, 'email' | 'password'>>;
   emailSignUp?: Resolver<ResolversTypes['emailSignUpResponse'], ParentType, ContextType, RequireFields<MutationEmailSignUpArgs, 'email' | 'password' | 'name'>>;
   googleSignIn?: Resolver<ResolversTypes['googleSignInResponse'], ParentType, ContextType, RequireFields<MutationGoogleSignInArgs, 'email' | 'avatar' | 'name' | 'googleId'>>;

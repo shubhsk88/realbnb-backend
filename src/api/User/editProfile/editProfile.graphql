@@ -5,8 +5,8 @@ type EditProfileResponse {
 
 type Mutation {
   editProfile(
-    name: String!
-    gender: String!
+    name: String
+    gender: String
     address: String
     phone: String
     birthDate: String

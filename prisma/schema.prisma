@@ -15,8 +15,8 @@ model Address {
   city    String
   country String
   address String
-  User    User[]
   Room    Room[]
+  user    User?
 }
 
 model User {
@@ -163,15 +163,15 @@ model Message {
 }
 
 model Photo {
-  id      String @id @default(cuid())
+  id      String  @id @default(cuid())
   caption String
   link    String
-  Room   Room?   @relation(fields: [roomId], references: [id])
-  roomId String?
+  Room    Room?   @relation(fields: [roomId], references: [id])
+  roomId  String?
 }
 
 model Verification {
-  id  String  @id @default(cuid())
-  key String? @unique
-  payload String @unique
+  id      String  @id @default(cuid())
+  key     String? @unique
+  payload String  @unique
 }

@@ -15,21 +15,23 @@ CREATE TABLE "User" (
     "language" TEXT NOT NULL DEFAULT 'en',
     "currency" TEXT NOT NULL DEFAULT 'usd',
     "email" TEXT NOT NULL,
+    "addressId" TEXT,
     "name" TEXT NOT NULL,
-    "gender" TEXT NOT NULL,
+    "gender" TEXT DEFAULT 'other',
     "avatar" TEXT,
-    "birthdate" DATETIME,
+    "birthDate" DATETIME,
     "bio" TEXT,
     "phone" TEXT,
     "password" TEXT,
-    "addressId" TEXT,
+    "isVerified" BOOLEAN NOT NULL DEFAULT false,
+    "googleId" TEXT,
     FOREIGN KEY ("addressId") REFERENCES "Address" ("id") ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 -- CreateTable
 CREATE TABLE "Room" (
     "id" TEXT NOT NULL PRIMARY KEY,
-    "hostId" TEXT,
+    "hostId" TEXT NOT NULL,
     "addressId" TEXT NOT NULL,
     "roomTypeId" TEXT NOT NULL,
     "instantBook" BOOLEAN NOT NULL DEFAULT false,
@@ -44,7 +46,7 @@ CREATE TABLE "Room" (
     "created" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "description" TEXT,
-    FOREIGN KEY ("hostId") REFERENCES "User" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
+    FOREIGN KEY ("hostId") REFERENCES "User" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY ("addressId") REFERENCES "Address" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY ("roomTypeId") REFERENCES "RoomType" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -143,6 +145,13 @@ CREATE TABLE "Photo" (
 );
 
 -- CreateTable
+CREATE TABLE "Verification" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "key" TEXT,
+    "payload" TEXT NOT NULL
+);
+
+-- CreateTable
 CREATE TABLE "_ChatToUser" (
     "A" TEXT NOT NULL,
     "B" TEXT NOT NULL,
@@ -184,6 +193,12 @@ CREATE TABLE "_ListToRoom" (
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User.email_unique" ON "User"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Verification.key_unique" ON "Verification"("key");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Verification.payload_unique" ON "Verification"("payload");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "_ChatToUser_AB_unique" ON "_ChatToUser"("A", "B");

@@ -1,5 +1,5 @@
-import { nonNullable } from '@/src/utils'
 import {Resolvers} from '@/types/generated'
+import { nonNullable } from '@/src/utils'
 
 const resolvers: Resolvers = {
   Mutation: {
@@ -7,20 +7,45 @@ const resolvers: Resolvers = {
       if (!user) {
         return {ok: false, error: 'Unauthorized Request'}
       }
-    const inputData=nonNullable(args)
       await prisma.user.update({
         where: {
           id: user.id,
         },
         data: {
+          ...nonNullable(args),
           address: {
-            update: {
-              address: address || '',
-            },
+            upsert: {
+              update: {
+                address: address || '',
+              },
+              create: {
+                address: address || '',
+                city: '',
+                country: ''
+              }
+            }
           },
-          ...args,
         },
       })
+
+      /* if(address && user.addressId) {
+        await prisma.user.update({
+          where: {
+            id: user.id
+          },
+          data: {
+            address: {
+              update: {
+                address: address || '',
+              },
+            },
+          }
+        })
+      } else {
+        await prisma.user.creat
+      } */
+
+      return { ok: true }
     },
   },
 }

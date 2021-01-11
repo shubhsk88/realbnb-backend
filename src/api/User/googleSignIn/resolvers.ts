@@ -17,7 +17,7 @@ const resolvers: Resolvers = {
               email,
             },
             data: {
-              googleId,
+              googleId
             },
           })
           const token = createToken(existingUser.id)
