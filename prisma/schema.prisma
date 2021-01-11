@@ -77,19 +77,19 @@ model Room {
 
 model RoomType {
   id   Int    @id @default(autoincrement())
-  name String
+  name String @unique
   room Room[]
 }
 
 model Amenity {
   id    Int    @id @default(autoincrement())
-  name  String
+  name  String @unique
   rooms Room[] @relation(references: [id])
 }
 
 model HouseRule {
   id    Int    @id @default(autoincrement())
-  name  String
+  name  String @unique
   rooms Room[] @relation(references: [id])
 }
 
