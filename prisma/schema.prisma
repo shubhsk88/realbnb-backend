@@ -109,10 +109,10 @@ model Review {
   communication Int
   checkIn       Int
   value         Int
-  User          User?    @relation(fields: [userId], references: [id])
-  userId        String?
-  Room          Room?    @relation(fields: [roomId], references: [id])
-  roomId        String?
+  User          User     @relation(fields: [userId], references: [id])
+  userId        String
+  Room          Room     @relation(fields: [roomId], references: [id])
+  roomId        String
 }
 
 model Reservation {
