@@ -15,7 +15,7 @@ model Address {
   city    String
   country String
   address String
-  Room    Room[]
+  Room    Room?
   user    User?
 }
 
