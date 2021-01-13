@@ -101,6 +101,20 @@ export type MutationPhoneVerificationArgs = {
   phoneNumber: Scalars['String'];
 };
 
+export type GetRoomsResponse = {
+  __typename?: 'getRoomsResponse';
+  ok: Scalars['Boolean'];
+  error?: Maybe<Scalars['String']>;
+  rooms?: Maybe<Array<Maybe<Room>>>;
+};
+
+export type Query = {
+  __typename?: 'Query';
+  getRooms: GetRoomsResponse;
+  getUserProfile: GetUserProfileResponse;
+  hello?: Maybe<Scalars['String']>;
+};
+
 export type CompletePhoneVerificationResponse = {
   __typename?: 'completePhoneVerificationResponse';
   ok: Scalars['Boolean'];
@@ -140,12 +154,6 @@ export type GetUserProfileResponse = {
   ok: Scalars['Boolean'];
   error?: Maybe<Scalars['String']>;
   user?: Maybe<User>;
-};
-
-export type Query = {
-  __typename?: 'Query';
-  getUserProfile: GetUserProfileResponse;
-  hello?: Maybe<Scalars['String']>;
 };
 
 export type GoogleSignInResponse = {
@@ -412,6 +420,8 @@ export type ResolversTypes = {
   Mutation: ResolverTypeWrapper<{}>;
   Float: ResolverTypeWrapper<any>;
   Int: ResolverTypeWrapper<any>;
+  getRoomsResponse: ResolverTypeWrapper<any>;
+  Query: ResolverTypeWrapper<{}>;
   completePhoneVerificationResponse: ResolverTypeWrapper<any>;
   DateTime: ResolverTypeWrapper<any>;
   createUserViaPhoneResponse: ResolverTypeWrapper<any>;
@@ -419,7 +429,6 @@ export type ResolversTypes = {
   emailSignInResponse: ResolverTypeWrapper<any>;
   emailSignUpResponse: ResolverTypeWrapper<any>;
   getUserProfileResponse: ResolverTypeWrapper<any>;
-  Query: ResolverTypeWrapper<{}>;
   googleSignInResponse: ResolverTypeWrapper<any>;
   phoneVerificationResponse: ResolverTypeWrapper<any>;
   Amenity: ResolverTypeWrapper<any>;
@@ -446,6 +455,8 @@ export type ResolversParentTypes = {
   Mutation: {};
   Float: any;
   Int: any;
+  getRoomsResponse: any;
+  Query: {};
   completePhoneVerificationResponse: any;
   DateTime: any;
   createUserViaPhoneResponse: any;
@@ -453,7 +464,6 @@ export type ResolversParentTypes = {
   emailSignInResponse: any;
   emailSignUpResponse: any;
   getUserProfileResponse: any;
-  Query: {};
   googleSignInResponse: any;
   phoneVerificationResponse: any;
   Amenity: any;
@@ -487,6 +497,19 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   emailSignUp?: Resolver<ResolversTypes['emailSignUpResponse'], ParentType, ContextType, RequireFields<MutationEmailSignUpArgs, 'email' | 'password' | 'name'>>;
   googleSignIn?: Resolver<ResolversTypes['googleSignInResponse'], ParentType, ContextType, RequireFields<MutationGoogleSignInArgs, 'email' | 'avatar' | 'name' | 'googleId'>>;
   phoneVerification?: Resolver<ResolversTypes['phoneVerificationResponse'], ParentType, ContextType, RequireFields<MutationPhoneVerificationArgs, 'phoneNumber'>>;
+};
+
+export type GetRoomsResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['getRoomsResponse'] = ResolversParentTypes['getRoomsResponse']> = {
+  ok?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  rooms?: Resolver<Maybe<Array<Maybe<ResolversTypes['Room']>>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  getRooms?: Resolver<ResolversTypes['getRoomsResponse'], ParentType, ContextType>;
+  getUserProfile?: Resolver<ResolversTypes['getUserProfileResponse'], ParentType, ContextType>;
+  hello?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 };
 
 export type CompletePhoneVerificationResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['completePhoneVerificationResponse'] = ResolversParentTypes['completePhoneVerificationResponse']> = {
@@ -531,11 +554,6 @@ export type GetUserProfileResponseResolvers<ContextType = Context, ParentType ex
   error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  getUserProfile?: Resolver<ResolversTypes['getUserProfileResponse'], ParentType, ContextType>;
-  hello?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 };
 
 export type GoogleSignInResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['googleSignInResponse'] = ResolversParentTypes['googleSignInResponse']> = {
@@ -721,6 +739,8 @@ export type VerificationResolvers<ContextType = Context, ParentType extends Reso
 export type Resolvers<ContextType = Context> = {
   createRoomResponse?: CreateRoomResponseResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
+  getRoomsResponse?: GetRoomsResponseResolvers<ContextType>;
+  Query?: QueryResolvers<ContextType>;
   completePhoneVerificationResponse?: CompletePhoneVerificationResponseResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
   createUserViaPhoneResponse?: CreateUserViaPhoneResponseResolvers<ContextType>;
@@ -728,7 +748,6 @@ export type Resolvers<ContextType = Context> = {
   emailSignInResponse?: EmailSignInResponseResolvers<ContextType>;
   emailSignUpResponse?: EmailSignUpResponseResolvers<ContextType>;
   getUserProfileResponse?: GetUserProfileResponseResolvers<ContextType>;
-  Query?: QueryResolvers<ContextType>;
   googleSignInResponse?: GoogleSignInResponseResolvers<ContextType>;
   phoneVerificationResponse?: PhoneVerificationResponseResolvers<ContextType>;
   Amenity?: AmenityResolvers<ContextType>;
