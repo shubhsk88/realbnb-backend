@@ -1,5 +1,6 @@
 type Room {
   id: String!
+  name: String!
   host: User!
   hostId: String!
   address: Address!
