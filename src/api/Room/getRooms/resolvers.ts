@@ -4,7 +4,16 @@ const resolvers: Resolvers = {
   Query: {
     getRooms: async (_, __, context) => {
       try {
-        const rooms = await context.prisma.room.findMany()
+        const rooms = await context.prisma.room.findMany({
+          include: {
+            photos: true,
+            roomType: true,
+            amenities: true,
+            facilities: true,
+            
+            
+          },
+        })
         return {
           ok: true,
           rooms,

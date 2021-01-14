@@ -11,6 +11,7 @@ const createReviewFields = build('Review', {
     value: fake(field => field.random.number(5)),
   },
 })
+export const selectRandom = (len: number) => Math.floor(Math.random() * len)
 
 interface ReviewFields {
   content: string
@@ -22,22 +23,28 @@ interface ReviewFields {
 }
 
 const createReview = async () => {
-  const user = await prisma.user.findFirst()
-  const room = await prisma.room.findFirst()
+  const users = await prisma.user.findMany({select: {id: true}})
 
-  const reviewFields = createReviewFields() as ReviewFields
+  const rooms = await prisma.room.findMany({select: {id: true}})
 
-  await prisma.review.create({
-    data: {
-      ...reviewFields,
-      User: {
-        connect: {id: user?.id},
+  for (let i = 0; i < 20; i++) {
+    const reviewFields = createReviewFields() as ReviewFields
+    const randomUserIndex = selectRandom(users.length)
+    const randomRoomsIndex = selectRandom(rooms.length)
+    const user = users[randomUserIndex]
+    const room = rooms[randomRoomsIndex]
+    await prisma.review.create({
+      data: {
+        ...reviewFields,
+        User: {
+          connect: {id: user.id},
+        },
+        Room: {
+          connect: {id: room.id},
+        },
       },
-      Room: {
-        connect: {id: room?.id},
-      },
-    },
-  })
+    })
+  }
 }
 
 createReview()

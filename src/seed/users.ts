@@ -7,6 +7,7 @@ const num = Math.floor(Math.random() * 10)
 const lang = ['en', 'hi', 'de', 'ko']
 const fakeUser = build('User', {
   fields: {
+    
     name: fake(user => user.name.findName()),
     email: fake(user => user.internet.email()),
     password: fake(user => user.internet.password()),

@@ -17,7 +17,7 @@ const resolvers: Resolvers = {
               email,
             },
             data: {
-              googleId
+              googleId,
             },
           })
           const token = createToken(existingUser.id)
@@ -37,6 +37,9 @@ const resolvers: Resolvers = {
         return {ok: false, error: error.message}
       }
     },
+  },
+  Query: {
+    hello: () => 'bye bye',
   },
 }
 
