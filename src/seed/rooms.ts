@@ -1,5 +1,6 @@
 import {prisma} from '..'
 import {build, fake} from '@jackfranklin/test-data-bot'
+import {randomInt, randomSelection} from '../utils/random'
 // import {Room} from '@prisma/client'
 
 const checkIn = fake(field => field.date.future())
@@ -40,16 +41,17 @@ const createRoom = async () => {
   const room = createRoomFields() as RoomFields
 
   const users = await prisma.user.findMany({select: {id: true}})
-  const host = users[Math.floor(Math.random() * users.length - 2)]
+  const host = randomSelection(users, 1)
 
   const addresses = await prisma.address.findMany({select: {id: true}})
-  const address = addresses[Math.floor(Math.random() * addresses.length - 2)]
+  const address = randomSelection(addresses, 1)
 
   const roomTypes = await prisma.roomType.findMany({select: {id: true}})
-  const roomType = roomTypes[Math.floor(Math.random() * roomTypes.length - 2)]
+  const roomType = randomSelection(roomTypes, 1)
 
   const houseRules = await prisma.houseRule.findMany({select: {id: true}})
   const numHouseRules = Math.floor(Math.random() * houseRules.length - 1) + 1
+  // randomSelection(houseRules, randomInt(0, Math.max(3, houseRules.length)))
 
   const amenities = await prisma.amenity.findMany({select: {id: true}})
   const numAmenities = Math.floor(Math.random() * amenities.length - 1) + 1

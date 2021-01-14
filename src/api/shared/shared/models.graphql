@@ -17,7 +17,7 @@ type Room {
   photos: [Photo]!
   beds: Int!
   bedrooms: Int!
-  bathroom: Int!
+  bathrooms: Float!
   guests: Int!
   checkIn: DateTime!
   checkOut: DateTime!

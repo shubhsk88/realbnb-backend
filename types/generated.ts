@@ -210,7 +210,7 @@ export type Room = {
   photos: Array<Maybe<Photo>>;
   beds: Scalars['Int'];
   bedrooms: Scalars['Int'];
-  bathroom: Scalars['Int'];
+  bathrooms: Scalars['Float'];
   guests: Scalars['Int'];
   checkIn: Scalars['DateTime'];
   checkOut: Scalars['DateTime'];
@@ -620,7 +620,7 @@ export type RoomResolvers<ContextType = Context, ParentType extends ResolversPar
   photos?: Resolver<Array<Maybe<ResolversTypes['Photo']>>, ParentType, ContextType>;
   beds?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   bedrooms?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  bathroom?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  bathrooms?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   guests?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   checkIn?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   checkOut?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
