@@ -1,0 +1,175 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Address {
+  id      String @id @default(cuid())
+  city    String
+  country String
+  address String
+  Room    Room?
+  user    User?
+}
+
+model User {
+  id           String        @id @default(cuid())
+  created      DateTime      @default(now())
+  updated      DateTime      @default(now())
+  superhost    Boolean       @default(false)
+  language     String        @default("en")
+  currency     String        @default("usd")
+  email        String        @unique
+  address      Address?      @relation(fields: [addressId], references: [id])
+  addressId    String?
+  rooms        Room[]
+  reviews      Review[]
+  lists        List[]
+  reservations Reservation[]
+  chats        Chat[]
+  messages     Message[]
+  name         String
+  gender       String?       @default("other")
+  avatar       String?
+  birthDate    DateTime?
+  bio          String?
+  phone        String?
+  password     String?
+  isVerified   Boolean       @default(false)
+  googleId     String?
+}
+
+model Room {
+  id           String        @id @default(cuid())
+  host         User          @relation(fields: [hostId], references: [id])
+  hostId       String
+  address      Address       @relation(fields: [addressId], references: [id])
+  addressId    String
+  roomType     RoomType      @relation(fields: [roomTypeId], references: [id])
+  roomTypeId   Int
+  amenities    Amenity[]     @relation(references: [id])
+  houseRules   HouseRule[]   @relation(references: [id])
+  facilities   Facility[]    @relation(references: [id])
+  reviews      Review[]
+  reservations Reservation[]
+  lists        List[]
+  instantBook  Boolean       @default(false)
+  name         String
+  price        Float
+  photos       Photo[]
+  beds         Int
+  bedrooms     Int
+  bathrooms    Float
+  guests       Int
+  checkIn      DateTime
+  checkOut     DateTime
+  created      DateTime      @default(now())
+  updated      DateTime      @default(now())
+  description  String?
+}
+
+model RoomType {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+  room Room[]
+}
+
+model Amenity {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  rooms Room[] @relation(references: [id])
+}
+
+model HouseRule {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  rooms Room[] @relation(references: [id])
+}
+
+model Facility {
+  id    Int    @id @default(autoincrement())
+  name  String
+  rooms Room[] @relation(references: [id])
+}
+
+model Review {
+  id            String   @id @default(cuid())
+  content       String
+  created       DateTime @default(now())
+  updated       DateTime @default(now())
+  accuracy      Int
+  location      Int
+  communication Int
+  checkIn       Int
+  value         Int
+  User          User     @relation(fields: [userId], references: [id])
+  userId        String
+  Room          Room     @relation(fields: [roomId], references: [id])
+  roomId        String
+}
+
+model Reservation {
+  id       String   @id @default(cuid())
+  status   String
+  checkIn  DateTime
+  checkOut DateTime
+  created  DateTime @default(now())
+  updated  DateTime @default(now())
+
+  guest   User?   @relation(fields: [guestId], references: [id])
+  guestId String?
+  Room    Room?   @relation(fields: [roomId], references: [id])
+  roomId  String?
+}
+
+model List {
+  id      String   @id @default(cuid())
+  name    String
+  created DateTime @default(now())
+  updated DateTime @default(now())
+
+  User   User?   @relation(fields: [userId], references: [id])
+  userId String?
+  rooms  Room[]
+}
+
+model Chat {
+  id             String    @id @default(cuid())
+  participations User[]
+  messages       Message[]
+  created        DateTime  @default(now())
+  updated        DateTime  @default(now())
+
+}
+
+model Message {
+  id      String   @id @default(cuid())
+  text    String
+  created DateTime @default(now())
+  updated DateTime @default(now())
+  User    User?    @relation(fields: [userId], references: [id])
+  userId  String?
+  Chat    Chat?    @relation(fields: [chatId], references: [id])
+  chatId  String?
+}
+
+model Photo {
+  id      String  @id @default(cuid())
+  caption String
+  link    String
+  Room    Room?   @relation(fields: [roomId], references: [id])
+  roomId  String?
+}
+
+model Verification {
+  id      String  @id @default(cuid())
+  key     String? @unique
+  payload String  @unique
+}

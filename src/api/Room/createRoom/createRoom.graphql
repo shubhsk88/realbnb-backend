@@ -1,0 +1,17 @@
+type createRoomResponse {
+  ok: Boolean!
+  error: String
+}
+
+type Mutation {
+  createRoom(
+    name: String!
+    price: Float!
+    beds: Int!
+    bedrooms: Int!
+    bathroom: Int!
+    guests: Int!
+    checkIn: DateTime!
+    checkOut: DateTime!
+  ): createRoomResponse!
+}
