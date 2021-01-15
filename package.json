@@ -9,7 +9,7 @@
     "dev2": "nodemon dist/src/index.js",
     "watch": "tsc -w",
     "ts-gen": "tsc .",
-    "seed": "ts-node -r tsconfig-paths/register src/seed/reviews.ts",
+    "seed": "ts-node -r tsconfig-paths/register src/seed/rooms.ts",
     "generate": "graphql-codegen --config codegen.yml",
     "watch-prisma": "nodemon --exec prisma migrate dev --preview-feature prisma/schema.prisma"
   },

@@ -1,6 +1,6 @@
 import {prisma} from '..'
 import {build, fake} from '@jackfranklin/test-data-bot'
-import {randomInt, randomSelection} from '../utils/random'
+// import {randomInt, randomSelection} from '../utils/random'
 // import {Room} from '@prisma/client'
 
 const checkIn = fake(field => field.date.future())
@@ -41,13 +41,16 @@ const createRoom = async () => {
   const room = createRoomFields() as RoomFields
 
   const users = await prisma.user.findMany({select: {id: true}})
-  const host = randomSelection(users, 1)
+  const host = users[Math.floor(Math.random() * users.length - 2)]
+  // const host = randomSelection(users, 1)
 
   const addresses = await prisma.address.findMany({select: {id: true}})
-  const address = randomSelection(addresses, 1)
+  const address = addresses[Math.floor(Math.random() * addresses.length - 2)]
+  // const address = randomSelection(addresses, 1)
 
   const roomTypes = await prisma.roomType.findMany({select: {id: true}})
-  const roomType = randomSelection(roomTypes, 1)
+  const roomType = roomTypes[Math.floor(Math.random() * roomTypes.length - 2)]
+  //const roomType = randomSelection(roomTypes, 1)
 
   const houseRules = await prisma.houseRule.findMany({select: {id: true}})
   const numHouseRules = Math.floor(Math.random() * houseRules.length - 1) + 1
@@ -94,4 +97,4 @@ const createRoom = async () => {
   })
 }
 
-for (let i = 0; i < 25; i++) createRoom()
+for (let i = 0; i < 1; i++) createRoom()

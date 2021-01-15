@@ -17,15 +17,18 @@ const port = process.env.PORT
 const prisma = new PrismaClient()
 
 prisma.$use(async (params, next) => {
-  if (params.model === 'Review') {
+  const mutationActions = ['create', 'update', 'delete']
+  if (params.model === 'Review' && mutationActions.includes(params.action)) {
     const {accuracy, communication, location, value, checkIn} = params.args.data
     params.args.data.averageRating =
       (accuracy + communication + location + value + checkIn) / 5
   }
+
   const result = await next(params)
 
   return result
 })
+
 export interface Context {
   prisma: PrismaClient
   user: User
@@ -45,6 +48,7 @@ const server = new ApolloServer({
     return {prisma, user}
   },
 })
+
 const app = express()
 app.use(cors())
 app.use(helmet())
