@@ -217,6 +217,11 @@ export type Room = {
   created: Scalars['DateTime'];
   updated: Scalars['DateTime'];
   description: Scalars['String'];
+  accuracyAvg: Scalars['Float'];
+  locationAvg: Scalars['Float'];
+  communicationAvg: Scalars['Float'];
+  valueAvg: Scalars['Float'];
+  checkInAvg: Scalars['Float'];
 };
 
 export type Address = {
@@ -289,6 +294,7 @@ export type Review = {
   value: Scalars['Int'];
   User: User;
   Room: Room;
+  averageRating: Scalars['Float'];
 };
 
 export type Reservation = {
@@ -627,6 +633,11 @@ export type RoomResolvers<ContextType = Context, ParentType extends ResolversPar
   created?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   updated?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  accuracyAvg?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  locationAvg?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  communicationAvg?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  valueAvg?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  checkInAvg?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -699,6 +710,7 @@ export type ReviewResolvers<ContextType = Context, ParentType extends ResolversP
   value?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   User?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   Room?: Resolver<ResolversTypes['Room'], ParentType, ContextType>;
+  averageRating?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

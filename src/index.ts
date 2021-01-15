@@ -44,7 +44,6 @@ const server = new ApolloServer({
   schema,
   context: async ({req}: {req: ReqObject}) => {
     const user = req.user ? await decodeUser(req.user.id) : null
-    console.log(user)
     return {prisma, user}
   },
 })

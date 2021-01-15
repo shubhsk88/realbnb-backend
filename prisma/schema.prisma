@@ -113,7 +113,7 @@ model Review {
   userId        String
   Room          Room     @relation(fields: [roomId], references: [id])
   roomId        String
-  averageRating Float?
+  averageRating Float    @default(-1)
 }
 
 model Reservation {
