@@ -24,11 +24,7 @@ type Room {
   created: DateTime!
   updated: DateTime!
   description: String!
-  accuracyAvg: Float!
-  locationAvg: Float!
-  communicationAvg: Float!
-  valueAvg: Float!
-  checkInAvg: Float!
+  averageRating: AverageReviewRating!
 }
 
 type Address {
@@ -82,6 +78,13 @@ type Facility {
   id: String!
   name: String!
   room: [Room]!
+}
+type AverageReviewRating {
+  accuracy: Float!
+  location: Float!
+  communication: Float!
+  value: Float!
+  checkIn: Float!
 }
 type Review {
   id: String!
