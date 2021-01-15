@@ -14,10 +14,16 @@ const resolvers: Resolvers = {
             facilities: true,
             roomType: true,
             houseRules: true,
-            reviews: true,
+            reviews: {
+              include: {
+                User: true,
+              },
+            },
             host: true,
           },
         })
+
+        console.log(room)
 
         const aggregate = await context.prisma.review.aggregate({
           where: {
@@ -32,7 +38,7 @@ const resolvers: Resolvers = {
             averageRating: true,
           },
         })
-        console.log(aggregate)
+
         const averages = aggregate.avg
         return {
           ok: true,
