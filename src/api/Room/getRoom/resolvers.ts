@@ -41,7 +41,7 @@ const resolvers: Resolvers = {
             accuracyAvg: averages.accuracy,
             communicationAvg: averages.communication,
             locationAvg: averages.communication,
-            value: averages.value,
+            valueAvg: averages.value,
             checkInAvg: averages.checkIn,
           },
         }
