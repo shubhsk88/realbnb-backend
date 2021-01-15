@@ -36,13 +36,10 @@ const resolvers: Resolvers = {
         const averages = aggregate.avg
         return {
           ok: true,
+
           room: {
             ...room,
-            accuracyAvg: averages.accuracy,
-            communicationAvg: averages.communication,
-            locationAvg: averages.communication,
-            value: averages.value,
-            checkInAvg: averages.checkIn,
+            averageRating: averages,
           },
         }
       } catch (error) {

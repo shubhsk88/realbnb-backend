@@ -217,11 +217,7 @@ export type Room = {
   created: Scalars['DateTime'];
   updated: Scalars['DateTime'];
   description: Scalars['String'];
-  accuracyAvg: Scalars['Float'];
-  locationAvg: Scalars['Float'];
-  communicationAvg: Scalars['Float'];
-  valueAvg: Scalars['Float'];
-  checkInAvg: Scalars['Float'];
+  averageRating: AverageReviewRating;
 };
 
 export type Address = {
@@ -279,6 +275,15 @@ export type Facility = {
   id: Scalars['String'];
   name: Scalars['String'];
   room: Array<Maybe<Room>>;
+};
+
+export type AverageReviewRating = {
+  __typename?: 'AverageReviewRating';
+  accuracy: Scalars['Float'];
+  location: Scalars['Float'];
+  communication: Scalars['Float'];
+  value: Scalars['Float'];
+  checkIn: Scalars['Float'];
 };
 
 export type Review = {
@@ -459,6 +464,7 @@ export type ResolversTypes = {
   RoomType: ResolverTypeWrapper<any>;
   HouseRule: ResolverTypeWrapper<any>;
   Facility: ResolverTypeWrapper<any>;
+  AverageReviewRating: ResolverTypeWrapper<any>;
   Review: ResolverTypeWrapper<any>;
   Reservation: ResolverTypeWrapper<any>;
   List: ResolverTypeWrapper<any>;
@@ -495,6 +501,7 @@ export type ResolversParentTypes = {
   RoomType: any;
   HouseRule: any;
   Facility: any;
+  AverageReviewRating: any;
   Review: any;
   Reservation: any;
   List: any;
@@ -633,11 +640,7 @@ export type RoomResolvers<ContextType = Context, ParentType extends ResolversPar
   created?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   updated?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  accuracyAvg?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
-  locationAvg?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
-  communicationAvg?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
-  valueAvg?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
-  checkInAvg?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  averageRating?: Resolver<ResolversTypes['AverageReviewRating'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -695,6 +698,15 @@ export type FacilityResolvers<ContextType = Context, ParentType extends Resolver
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   room?: Resolver<Array<Maybe<ResolversTypes['Room']>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type AverageReviewRatingResolvers<ContextType = Context, ParentType extends ResolversParentTypes['AverageReviewRating'] = ResolversParentTypes['AverageReviewRating']> = {
+  accuracy?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  location?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  communication?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  value?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  checkIn?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -795,6 +807,7 @@ export type Resolvers<ContextType = Context> = {
   RoomType?: RoomTypeResolvers<ContextType>;
   HouseRule?: HouseRuleResolvers<ContextType>;
   Facility?: FacilityResolvers<ContextType>;
+  AverageReviewRating?: AverageReviewRatingResolvers<ContextType>;
   Review?: ReviewResolvers<ContextType>;
   Reservation?: ReservationResolvers<ContextType>;
   List?: ListResolvers<ContextType>;
