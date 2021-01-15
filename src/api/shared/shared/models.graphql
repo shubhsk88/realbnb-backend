@@ -90,6 +90,7 @@ type Review {
   value: Int!
   User: User!
   Room: Room!
+  averageRating:Float
 }
 
 type Reservation {

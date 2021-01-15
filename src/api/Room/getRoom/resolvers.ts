@@ -18,6 +18,16 @@ const resolvers: Resolvers = {
             host: true,
           },
         })
+        const aggregate = await context.prisma.review.aggregate({
+          where: {
+            roomId: id,
+          },
+          avg: {
+            checkIn: true,
+            communication: true,
+          },
+        })
+        console.log(aggregate)
         return {ok: true, room}
       } catch (error) {
         return {ok: false, error: error.message}

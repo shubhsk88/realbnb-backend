@@ -27,7 +27,7 @@ const createReview = async () => {
 
   const rooms = await prisma.room.findMany({select: {id: true}})
 
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 1; i++) {
     const reviewFields = createReviewFields() as ReviewFields
     const randomUserIndex = selectRandom(users.length)
     const randomRoomsIndex = selectRandom(rooms.length)
