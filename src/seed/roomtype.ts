@@ -9,6 +9,7 @@ const createRoomType = async (roomType: string) => {
     },
   })
 }
+
 const runLoop = async () => {
   for (let room of roomtypes) {
     const data = await createRoomType(room)
