@@ -33,7 +33,7 @@ export type Mutation = {
   emailSignIn: EmailSignInResponse;
   emailSignUp: EmailSignUpResponse;
   googleSignIn: GoogleSignInResponse;
-  phoneVerification: PhoneVerificationResponse;
+  startPhoneVerification: StartPhoneVerificationResponse;
 };
 
 
@@ -97,7 +97,7 @@ export type MutationGoogleSignInArgs = {
 };
 
 
-export type MutationPhoneVerificationArgs = {
+export type MutationStartPhoneVerificationArgs = {
   phoneNumber: Scalars['String'];
 };
 
@@ -176,8 +176,8 @@ export type GoogleSignInResponse = {
   token?: Maybe<Scalars['String']>;
 };
 
-export type PhoneVerificationResponse = {
-  __typename?: 'phoneVerificationResponse';
+export type StartPhoneVerificationResponse = {
+  __typename?: 'startPhoneVerificationResponse';
   ok: Scalars['Boolean'];
   error?: Maybe<Scalars['String']>;
   token?: Maybe<Scalars['String']>;
@@ -456,7 +456,7 @@ export type ResolversTypes = {
   emailSignUpResponse: ResolverTypeWrapper<any>;
   getUserProfileResponse: ResolverTypeWrapper<any>;
   googleSignInResponse: ResolverTypeWrapper<any>;
-  phoneVerificationResponse: ResolverTypeWrapper<any>;
+  startPhoneVerificationResponse: ResolverTypeWrapper<any>;
   Amenity: ResolverTypeWrapper<any>;
   Room: ResolverTypeWrapper<any>;
   Address: ResolverTypeWrapper<any>;
@@ -493,7 +493,7 @@ export type ResolversParentTypes = {
   emailSignUpResponse: any;
   getUserProfileResponse: any;
   googleSignInResponse: any;
-  phoneVerificationResponse: any;
+  startPhoneVerificationResponse: any;
   Amenity: any;
   Room: any;
   Address: any;
@@ -525,7 +525,7 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   emailSignIn?: Resolver<ResolversTypes['emailSignInResponse'], ParentType, ContextType, RequireFields<MutationEmailSignInArgs, 'email' | 'password'>>;
   emailSignUp?: Resolver<ResolversTypes['emailSignUpResponse'], ParentType, ContextType, RequireFields<MutationEmailSignUpArgs, 'email' | 'password' | 'name'>>;
   googleSignIn?: Resolver<ResolversTypes['googleSignInResponse'], ParentType, ContextType, RequireFields<MutationGoogleSignInArgs, 'email' | 'avatar' | 'name' | 'googleId'>>;
-  phoneVerification?: Resolver<ResolversTypes['phoneVerificationResponse'], ParentType, ContextType, RequireFields<MutationPhoneVerificationArgs, 'phoneNumber'>>;
+  startPhoneVerification?: Resolver<ResolversTypes['startPhoneVerificationResponse'], ParentType, ContextType, RequireFields<MutationStartPhoneVerificationArgs, 'phoneNumber'>>;
 };
 
 export type GetRoomResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['getRoomResponse'] = ResolversParentTypes['getRoomResponse']> = {
@@ -600,7 +600,7 @@ export type GoogleSignInResponseResolvers<ContextType = Context, ParentType exte
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type PhoneVerificationResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['phoneVerificationResponse'] = ResolversParentTypes['phoneVerificationResponse']> = {
+export type StartPhoneVerificationResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['startPhoneVerificationResponse'] = ResolversParentTypes['startPhoneVerificationResponse']> = {
   ok?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -799,7 +799,7 @@ export type Resolvers<ContextType = Context> = {
   emailSignUpResponse?: EmailSignUpResponseResolvers<ContextType>;
   getUserProfileResponse?: GetUserProfileResponseResolvers<ContextType>;
   googleSignInResponse?: GoogleSignInResponseResolvers<ContextType>;
-  phoneVerificationResponse?: PhoneVerificationResponseResolvers<ContextType>;
+  startPhoneVerificationResponse?: StartPhoneVerificationResponseResolvers<ContextType>;
   Amenity?: AmenityResolvers<ContextType>;
   Room?: RoomResolvers<ContextType>;
   Address?: AddressResolvers<ContextType>;
@@ -838,28 +838,4 @@ export const HelloDocument = gql`
   hello
 }
     `;
-
-/**
- * __useHelloQuery__
- *
- * To run a query within a React component, call `useHelloQuery` and pass it any options that fit your needs.
- * When your component renders, `useHelloQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useHelloQuery({
- *   variables: {
- *   },
- * });
- */
-export function useHelloQuery(baseOptions?: Apollo.QueryHookOptions<HelloQuery, HelloQueryVariables>) {
-        return Apollo.useQuery<HelloQuery, HelloQueryVariables>(HelloDocument, baseOptions);
-      }
-export function useHelloLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HelloQuery, HelloQueryVariables>) {
-          return Apollo.useLazyQuery<HelloQuery, HelloQueryVariables>(HelloDocument, baseOptions);
-        }
-export type HelloQueryHookResult = ReturnType<typeof useHelloQuery>;
-export type HelloLazyQueryHookResult = ReturnType<typeof useHelloLazyQuery>;
 export type HelloQueryResult = Apollo.QueryResult<HelloQuery, HelloQueryVariables>;
