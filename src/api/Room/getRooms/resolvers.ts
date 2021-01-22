@@ -10,19 +10,11 @@ const resolvers: Resolvers = {
             roomType: true,
             amenities: true,
             facilities: true,
-            
-            
           },
         })
-        return {
-          ok: true,
-          rooms,
-        }
+        return {ok: true, rooms}
       } catch (error) {
-        return {
-          ok: false,
-          error: error.message,
-        }
+        return {ok: false, error: error.message}
       }
     },
   },

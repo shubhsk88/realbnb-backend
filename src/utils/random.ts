@@ -8,7 +8,7 @@ export const randomSelection = (array: any[], size = array.length) => {
 
   const iter = size < arr.length ? size : arr.length
   for (let i = 0; i < iter; i++) {
-    const roll = arr.splice(randomInt(0, iter - 1 - i), 1)[0]
+    const roll = arr.splice(randomInt(0, arr.length - 1 - i), 1)[0]
     selection[i] = roll
   }
 

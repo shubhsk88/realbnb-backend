@@ -36,7 +36,7 @@ const createRoomFields = build('Room', {
 
 interface RoomLists {
   users: {id: string}[]
-  addresses: {id: string; address: string}[]
+  address: {id: string; address: string} | undefined
   photos: {id: string}[]
   roomTypes: {id: number}[]
   houseRules: {id: number}[]
@@ -46,7 +46,7 @@ interface RoomLists {
 
 const createRoom = async ({
   users,
-  addresses,
+  address,
   photos,
   roomTypes,
   houseRules,
@@ -60,8 +60,7 @@ const createRoom = async ({
   const roomType = randomSelection(roomTypes, 1)
 
   // Choose one, unique
-  const address = addresses.pop()
-  const addressName = address?.address ?? ''
+  const addressName = address?.address ?? 'Error'
 
   // Choose some of any
   const numHouseRules = randomInt(0, houseRules.length - 1)
@@ -108,35 +107,58 @@ const createRoom = async ({
   return data
 }
 
-const createRooms = async () => {
+const createRooms = async (numRooms: number) => {
   // Variable
   const users = await prisma.user.findMany({select: {id: true}})
 
-  // Variable Unique
+  // Variable, Unique
   const addresses = await prisma.address.findMany({
     select: {id: true, address: true},
   })
 
+  // FIXME: this doesn't catch addresses reused in multiple runs, needs to check against currently used
+  // addresses from rooms too using prisma.room.findMany({select: {id: true}})
+  if (addresses.length < numRooms) {
+    throw new Error(
+      'Trying to create more rooms than available there exists of unique addresses, try creating more addresses or creating less rooms',
+    )
+  }
+
   // Constant
   const roomTypes = await prisma.roomType.findMany({select: {id: true}})
-
   const houseRules = await prisma.houseRule.findMany({select: {id: true}})
   const amenities = await prisma.amenity.findMany({select: {id: true}})
   const facilities = await prisma.facility.findMany({select: {id: true}})
   const photos = await prisma.photo.findMany({select: {id: true}})
 
-  for (let i = 0; i < 14; i++) {
+  for (let i = 0; i < numRooms; i++) {
+    const address = addresses.pop()
+
     const data = await createRoom({
       users,
-      addresses,
+      address,
       photos,
       roomTypes,
       houseRules,
       amenities,
       facilities,
     })
-    console.log(data, '\n')
+
+    const result = await prisma.room.findUnique({
+      where: {id: data.id},
+      include: {
+        host: true,
+        address: true,
+        photos: true,
+        roomType: true,
+        houseRules: true,
+        amenities: true,
+        facilities: true,
+      },
+    })
+
+    console.log({...result}, `\n${'-'.repeat(50)}\n`)
   }
 }
 
-createRooms()
+createRooms(14)

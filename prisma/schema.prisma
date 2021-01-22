@@ -162,11 +162,15 @@ model Message {
 }
 
 model Photo {
-  id      String  @id @default(cuid())
+  id      String @id @default(cuid())
   caption String
   link    String
-  Room    Room?   @relation(fields: [roomId], references: [id])
-  roomId  String?
+  //  **** NOTICE: photo should only belong to one room ****
+  //  many-to-many relationship is enabled for dev purposes to allow photos to be reused in a smaller
+  //  photo test set
+  Room    Room[]
+  // Room    Room?   @relation(fields: [roomId], references: [id])
+  // roomId  String?
 }
 
 model Verification {
