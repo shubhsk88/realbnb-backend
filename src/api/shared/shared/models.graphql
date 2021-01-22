@@ -109,6 +109,7 @@ type Reservation {
   created: DateTime!
   updated: DateTime!
   guest: User
+  price: String!
   Room: Room
 }
 

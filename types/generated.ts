@@ -18,14 +18,21 @@ export type Scalars = {
   DateTime: any;
 };
 
-export type CreateRoomResponse = {
-  __typename?: 'createRoomResponse';
+export type CreatePaymentResponse = {
+  __typename?: 'CreatePaymentResponse';
   ok: Scalars['Boolean'];
   error?: Maybe<Scalars['String']>;
+  clientSecret?: Maybe<Scalars['String']>;
+};
+
+export type ReservationInput = {
+  price: Scalars['Float'];
+  room: Scalars['String'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createPayment: CreatePaymentResponse;
   createRoom: CreateRoomResponse;
   completePhoneVerification: CompletePhoneVerificationResponse;
   createUserViaPhone: CreateUserViaPhoneResponse;
@@ -34,6 +41,12 @@ export type Mutation = {
   emailSignUp: EmailSignUpResponse;
   googleSignIn: GoogleSignInResponse;
   startPhoneVerification: StartPhoneVerificationResponse;
+};
+
+
+export type MutationCreatePaymentArgs = {
+  reservation: ReservationInput;
+  currency: Scalars['String'];
 };
 
 
@@ -99,6 +112,12 @@ export type MutationGoogleSignInArgs = {
 
 export type MutationStartPhoneVerificationArgs = {
   phoneNumber: Scalars['String'];
+};
+
+export type CreateRoomResponse = {
+  __typename?: 'createRoomResponse';
+  ok: Scalars['Boolean'];
+  error?: Maybe<Scalars['String']>;
 };
 
 export type GetRoomResponse = {
@@ -311,6 +330,7 @@ export type Reservation = {
   created: Scalars['DateTime'];
   updated: Scalars['DateTime'];
   guest?: Maybe<User>;
+  price: Scalars['String'];
   Room?: Maybe<Room>;
 };
 
@@ -439,12 +459,14 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
-  createRoomResponse: ResolverTypeWrapper<any>;
+  CreatePaymentResponse: ResolverTypeWrapper<any>;
   Boolean: ResolverTypeWrapper<any>;
   String: ResolverTypeWrapper<any>;
-  Mutation: ResolverTypeWrapper<{}>;
+  ReservationInput: ResolverTypeWrapper<any>;
   Float: ResolverTypeWrapper<any>;
+  Mutation: ResolverTypeWrapper<{}>;
   Int: ResolverTypeWrapper<any>;
+  createRoomResponse: ResolverTypeWrapper<any>;
   getRoomResponse: ResolverTypeWrapper<any>;
   Query: ResolverTypeWrapper<{}>;
   getRoomsResponse: ResolverTypeWrapper<any>;
@@ -476,12 +498,14 @@ export type ResolversTypes = {
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
-  createRoomResponse: any;
+  CreatePaymentResponse: any;
   Boolean: any;
   String: any;
-  Mutation: {};
+  ReservationInput: any;
   Float: any;
+  Mutation: {};
   Int: any;
+  createRoomResponse: any;
   getRoomResponse: any;
   Query: {};
   getRoomsResponse: any;
@@ -511,13 +535,15 @@ export type ResolversParentTypes = {
   Verification: any;
 };
 
-export type CreateRoomResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['createRoomResponse'] = ResolversParentTypes['createRoomResponse']> = {
+export type CreatePaymentResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['CreatePaymentResponse'] = ResolversParentTypes['CreatePaymentResponse']> = {
   ok?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  clientSecret?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  createPayment?: Resolver<ResolversTypes['CreatePaymentResponse'], ParentType, ContextType, RequireFields<MutationCreatePaymentArgs, 'reservation' | 'currency'>>;
   createRoom?: Resolver<ResolversTypes['createRoomResponse'], ParentType, ContextType, RequireFields<MutationCreateRoomArgs, 'name' | 'price' | 'beds' | 'bedrooms' | 'bathroom' | 'guests' | 'checkIn' | 'checkOut'>>;
   completePhoneVerification?: Resolver<ResolversTypes['completePhoneVerificationResponse'], ParentType, ContextType, RequireFields<MutationCompletePhoneVerificationArgs, 'phoneNumber' | 'key'>>;
   createUserViaPhone?: Resolver<ResolversTypes['createUserViaPhoneResponse'], ParentType, ContextType, RequireFields<MutationCreateUserViaPhoneArgs, 'email' | 'password' | 'name' | 'phone'>>;
@@ -526,6 +552,12 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   emailSignUp?: Resolver<ResolversTypes['emailSignUpResponse'], ParentType, ContextType, RequireFields<MutationEmailSignUpArgs, 'email' | 'password' | 'name'>>;
   googleSignIn?: Resolver<ResolversTypes['googleSignInResponse'], ParentType, ContextType, RequireFields<MutationGoogleSignInArgs, 'email' | 'avatar' | 'name' | 'googleId'>>;
   startPhoneVerification?: Resolver<ResolversTypes['startPhoneVerificationResponse'], ParentType, ContextType, RequireFields<MutationStartPhoneVerificationArgs, 'phoneNumber'>>;
+};
+
+export type CreateRoomResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['createRoomResponse'] = ResolversParentTypes['createRoomResponse']> = {
+  ok?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type GetRoomResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['getRoomResponse'] = ResolversParentTypes['getRoomResponse']> = {
@@ -734,6 +766,7 @@ export type ReservationResolvers<ContextType = Context, ParentType extends Resol
   created?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   updated?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   guest?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  price?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   Room?: Resolver<Maybe<ResolversTypes['Room']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -786,8 +819,9 @@ export type VerificationResolvers<ContextType = Context, ParentType extends Reso
 };
 
 export type Resolvers<ContextType = Context> = {
-  createRoomResponse?: CreateRoomResponseResolvers<ContextType>;
+  CreatePaymentResponse?: CreatePaymentResponseResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
+  createRoomResponse?: CreateRoomResponseResolvers<ContextType>;
   getRoomResponse?: GetRoomResponseResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   getRoomsResponse?: GetRoomsResponseResolvers<ContextType>;
