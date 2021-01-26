@@ -9,6 +9,7 @@ const resolvers: Resolvers = {
             id,
           },
           include: {
+            address: true,
             amenities: true,
             photos: true,
             facilities: true,
