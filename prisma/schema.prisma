@@ -123,6 +123,7 @@ model Reservation {
   checkOut DateTime
   created  DateTime @default(now())
   updated  DateTime @default(now())
+  price    Float    @default(0)
 
   guest   User?   @relation(fields: [guestId], references: [id])
   guestId String?
