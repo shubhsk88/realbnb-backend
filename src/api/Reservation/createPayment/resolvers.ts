@@ -5,16 +5,17 @@ const resolvers: Resolvers = {
   Mutation: {
     createPayment: async (_, {reservation, currency}) => {
       const price = reservation.price
+      const updatedCurrency = currency || 'usd'
 
       try {
         const paymentIntent = await stripe.paymentIntents.create({
           amount: price,
-          currency,
+          currency: updatedCurrency,
         })
         console.log(paymentIntent)
         if (paymentIntent.client_secret)
           return {ok: true, clientSecret: paymentIntent.client_secret}
-        else return {ok: false, error: 'The payment failed'}
+        else return {ok: false, error: 'Unexpected Error occured'}
       } catch (error) {
         return {
           ok: false,

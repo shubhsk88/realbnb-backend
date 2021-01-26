@@ -13,6 +13,6 @@ input ReservationInput{
 type Mutation {
   createPayment(
     reservation: ReservationInput!
-    currency: String!
+    currency: String
   ): CreatePaymentResponse!
 }
