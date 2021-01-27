@@ -1,6 +1,6 @@
 import {prisma} from '..'
 import {build, fake} from '@jackfranklin/test-data-bot'
-import {randomInt, randomSelection, shuffle} from '../utils/random'
+import {randomInt, randomSelection} from '../utils/random'
 interface RoomFields {
   price: number
   beds: number
@@ -63,13 +63,13 @@ const createRoom = async ({
   const addressName = address?.address ?? 'Error'
 
   // Choose some of any
-  const numHouseRules = randomInt(0, houseRules.length - 1)
+  const numHouseRules = randomInt(0, houseRules.length)
   const houseRuleSet = randomSelection(houseRules, numHouseRules)
 
-  const numAmenities = randomInt(0, amenities.length - 1)
+  const numAmenities = randomInt(0, amenities.length)
   const amenitySet = randomSelection(amenities, numAmenities)
 
-  const numFacilities = randomInt(0, facilities.length - 1)
+  const numFacilities = randomInt(0, facilities.length)
   const facilitySet = randomSelection(facilities, numFacilities)
 
   // Choose some of any (preferably unique if large image set is available)

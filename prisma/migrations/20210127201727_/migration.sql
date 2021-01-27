@@ -140,9 +140,7 @@ CREATE TABLE "Message" (
 CREATE TABLE "Photo" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "caption" TEXT NOT NULL,
-    "link" TEXT NOT NULL,
-    "roomId" TEXT,
-    FOREIGN KEY ("roomId") REFERENCES "Room" ("id") ON DELETE SET NULL ON UPDATE CASCADE
+    "link" TEXT NOT NULL
 );
 
 -- CreateTable
@@ -189,6 +187,14 @@ CREATE TABLE "_ListToRoom" (
     "A" TEXT NOT NULL,
     "B" TEXT NOT NULL,
     FOREIGN KEY ("A") REFERENCES "List" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY ("B") REFERENCES "Room" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- CreateTable
+CREATE TABLE "_PhotoToRoom" (
+    "A" TEXT NOT NULL,
+    "B" TEXT NOT NULL,
+    FOREIGN KEY ("A") REFERENCES "Photo" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY ("B") REFERENCES "Room" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
@@ -245,3 +251,9 @@ CREATE UNIQUE INDEX "_ListToRoom_AB_unique" ON "_ListToRoom"("A", "B");
 
 -- CreateIndex
 CREATE INDEX "_ListToRoom_B_index" ON "_ListToRoom"("B");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "_PhotoToRoom_AB_unique" ON "_PhotoToRoom"("A", "B");
+
+-- CreateIndex
+CREATE INDEX "_PhotoToRoom_B_index" ON "_PhotoToRoom"("B");
