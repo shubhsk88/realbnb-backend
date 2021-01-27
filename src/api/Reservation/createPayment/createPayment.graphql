@@ -4,12 +4,11 @@ type CreatePaymentResponse {
   clientSecret: String
 }
 
-
-input ReservationInput{
-    price:Float!
-    room:String!
-
+input ReservationInput {
+  price: Float!
+  roomId: String!
 }
+
 type Mutation {
   createPayment(
     reservation: ReservationInput!
