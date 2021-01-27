@@ -24,8 +24,6 @@ const resolvers: Resolvers = {
           },
         })
 
-        console.log(room)
-
         const aggregate = await context.prisma.review.aggregate({
           where: {
             roomId: id,
