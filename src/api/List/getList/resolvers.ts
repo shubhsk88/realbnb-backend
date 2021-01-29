@@ -11,7 +11,11 @@ const resolvers: Resolvers = {
             userId: user.id,
           },
           include: {
-            rooms: true,
+            rooms: {
+              include: {
+                photos: true,
+              },
+            },
           },
         })
         return {ok: true, lists}
