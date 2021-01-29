@@ -6,7 +6,7 @@ const resolvers: Resolvers = {
       if (!user) return {ok: false, error: 'Unauthorized acess'}
 
       try {
-        const lists = prisma.list.findMany({
+        const lists = await prisma.list.findMany({
           where: {
             userId: user.id,
           },
