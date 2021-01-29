@@ -15,7 +15,9 @@ const resolvers: Resolvers = {
         })
         const likedRooms = rooms.map(room => ({
           ...room,
-          isLiked: room.lists.some(list => list.userId === context.user.id),
+          isLiked: context.user
+            ? room.lists.some(list => list.userId === context.user?.id)
+            : false,
         }))
 
         return {
