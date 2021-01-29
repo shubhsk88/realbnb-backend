@@ -282,6 +282,7 @@ export type Room = {
   amenities: Array<Maybe<Amenity>>;
   houseRules: Array<Maybe<HouseRule>>;
   facilities: Array<Maybe<Facility>>;
+  isLiked?: Maybe<Scalars['Boolean']>;
   reviews: Array<Maybe<Review>>;
   reservations: Array<Maybe<Reservation>>;
   lists: Array<Maybe<List>>;
@@ -764,6 +765,7 @@ export type RoomResolvers<ContextType = Context, ParentType extends ResolversPar
   amenities?: Resolver<Array<Maybe<ResolversTypes['Amenity']>>, ParentType, ContextType>;
   houseRules?: Resolver<Array<Maybe<ResolversTypes['HouseRule']>>, ParentType, ContextType>;
   facilities?: Resolver<Array<Maybe<ResolversTypes['Facility']>>, ParentType, ContextType>;
+  isLiked?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   reviews?: Resolver<Array<Maybe<ResolversTypes['Review']>>, ParentType, ContextType>;
   reservations?: Resolver<Array<Maybe<ResolversTypes['Reservation']>>, ParentType, ContextType>;
   lists?: Resolver<Array<Maybe<ResolversTypes['List']>>, ParentType, ContextType>;
