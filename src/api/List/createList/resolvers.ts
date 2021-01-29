@@ -4,7 +4,7 @@ const resolvers: Resolvers = {
   Mutation: {
     createList: async (_, args, {prisma, user}) => {
       if (!user)
-        return {ok: false, error: 'You are not logged in.Please log in'}
+        return {ok: false, error: 'You are not logged in. Please log in'}
       const {name, roomId} = args
       try {
         const {id} = await prisma.list.create({

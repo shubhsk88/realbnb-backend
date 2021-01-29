@@ -27,7 +27,8 @@ export type CreateListResponse = {
 export type Mutation = {
   __typename?: 'Mutation';
   createList: CreateListResponse;
-  updateList: CreateListResponse;
+  deleteList: DeleteListResponse;
+  updateList: UpdateListResponse;
   createPayment: CreatePaymentResponse;
   createReservation: CreateReservationResponse;
   createRoom: CreateRoomResponse;
@@ -44,6 +45,11 @@ export type Mutation = {
 export type MutationCreateListArgs = {
   name: Scalars['String'];
   roomId?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationDeleteListArgs = {
+  id: Scalars['String'];
 };
 
 
@@ -129,6 +135,12 @@ export type MutationGoogleSignInArgs = {
 
 export type MutationStartPhoneVerificationArgs = {
   phoneNumber: Scalars['String'];
+};
+
+export type DeleteListResponse = {
+  __typename?: 'DeleteListResponse';
+  ok: Scalars['Boolean'];
+  error?: Maybe<Scalars['String']>;
 };
 
 export type UpdateListResponse = {
@@ -506,6 +518,7 @@ export type ResolversTypes = {
   Mutation: ResolverTypeWrapper<{}>;
   Float: ResolverTypeWrapper<any>;
   Int: ResolverTypeWrapper<any>;
+  DeleteListResponse: ResolverTypeWrapper<any>;
   UpdateListResponse: ResolverTypeWrapper<any>;
   CreatePaymentResponse: ResolverTypeWrapper<any>;
   ReservationInput: ResolverTypeWrapper<any>;
@@ -548,6 +561,7 @@ export type ResolversParentTypes = {
   Mutation: {};
   Float: any;
   Int: any;
+  DeleteListResponse: any;
   UpdateListResponse: any;
   CreatePaymentResponse: any;
   ReservationInput: any;
@@ -590,7 +604,8 @@ export type CreateListResponseResolvers<ContextType = Context, ParentType extend
 
 export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createList?: Resolver<ResolversTypes['CreateListResponse'], ParentType, ContextType, RequireFields<MutationCreateListArgs, 'name'>>;
-  updateList?: Resolver<ResolversTypes['CreateListResponse'], ParentType, ContextType, RequireFields<MutationUpdateListArgs, 'id' | 'roomId'>>;
+  deleteList?: Resolver<ResolversTypes['DeleteListResponse'], ParentType, ContextType, RequireFields<MutationDeleteListArgs, 'id'>>;
+  updateList?: Resolver<ResolversTypes['UpdateListResponse'], ParentType, ContextType, RequireFields<MutationUpdateListArgs, 'id' | 'roomId'>>;
   createPayment?: Resolver<ResolversTypes['CreatePaymentResponse'], ParentType, ContextType, RequireFields<MutationCreatePaymentArgs, 'reservation'>>;
   createReservation?: Resolver<ResolversTypes['CreateReservationResponse'], ParentType, ContextType, RequireFields<MutationCreateReservationArgs, 'checkIn' | 'checkOut' | 'price' | 'roomId'>>;
   createRoom?: Resolver<ResolversTypes['createRoomResponse'], ParentType, ContextType, RequireFields<MutationCreateRoomArgs, 'name' | 'price' | 'beds' | 'bedrooms' | 'bathroom' | 'guests' | 'checkIn' | 'checkOut'>>;
@@ -601,6 +616,12 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   emailSignUp?: Resolver<ResolversTypes['emailSignUpResponse'], ParentType, ContextType, RequireFields<MutationEmailSignUpArgs, 'email' | 'password' | 'name'>>;
   googleSignIn?: Resolver<ResolversTypes['googleSignInResponse'], ParentType, ContextType, RequireFields<MutationGoogleSignInArgs, 'email' | 'avatar' | 'name' | 'googleId'>>;
   startPhoneVerification?: Resolver<ResolversTypes['startPhoneVerificationResponse'], ParentType, ContextType, RequireFields<MutationStartPhoneVerificationArgs, 'phoneNumber'>>;
+};
+
+export type DeleteListResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['DeleteListResponse'] = ResolversParentTypes['DeleteListResponse']> = {
+  ok?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type UpdateListResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['UpdateListResponse'] = ResolversParentTypes['UpdateListResponse']> = {
@@ -889,6 +910,7 @@ export type VerificationResolvers<ContextType = Context, ParentType extends Reso
 export type Resolvers<ContextType = Context> = {
   CreateListResponse?: CreateListResponseResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
+  DeleteListResponse?: DeleteListResponseResolvers<ContextType>;
   UpdateListResponse?: UpdateListResponseResolvers<ContextType>;
   CreatePaymentResponse?: CreatePaymentResponseResolvers<ContextType>;
   CreateReservationResponse?: CreateReservationResponseResolvers<ContextType>;

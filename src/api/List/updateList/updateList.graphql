@@ -4,5 +4,5 @@ type UpdateListResponse {
 }
 
 type Mutation {
-  updateList(id: String!, roomId: String!): CreateListResponse!
+  updateList(id: String!, roomId: String!): UpdateListResponse!
 }
