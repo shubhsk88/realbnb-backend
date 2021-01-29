@@ -4,20 +4,17 @@ const resolvers: Resolvers = {
   Query: {
     getList: async (_, __, {prisma, user}) => {
       if (!user) return {ok: false, error: 'Unauthorized acess'}
+
       try {
-        const lists = await prisma.user.findUnique({
+        const lists = prisma.list.findMany({
           where: {
-            id: user.id,
+            userId: user.id,
           },
           include: {
-            lists: {
-              include: {
-                rooms: true,
-              },
-            },
+            rooms: true,
           },
         })
-        return {ok: true, lists: lists}
+        return {ok: true, lists}
       } catch (error) {
         return {ok: false, error: error.message}
       }

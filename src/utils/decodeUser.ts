@@ -7,11 +7,6 @@ export const decodeUser = async (id: string) => {
       include: {
         address: true,
         rooms: true,
-        lists: {
-          include: {
-            rooms: true,
-          },
-        },
       },
     })
   } catch (error) {
