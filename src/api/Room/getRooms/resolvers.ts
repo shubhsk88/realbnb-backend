@@ -10,9 +10,20 @@ const resolvers: Resolvers = {
             roomType: true,
             amenities: true,
             facilities: true,
+            lists: true,
           },
         })
-        return {ok: true, rooms}
+        const likedRooms = rooms.map(room => ({
+          ...room,
+          isLiked: context.user
+            ? room.lists.some(list => list.userId === context.user?.id)
+            : false,
+        }))
+
+        return {
+          ok: true,
+          rooms: likedRooms,
+        }
       } catch (error) {
         return {ok: false, error: error.message}
       }

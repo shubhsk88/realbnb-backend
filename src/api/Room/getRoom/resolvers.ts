@@ -9,9 +9,12 @@ const resolvers: Resolvers = {
             id,
           },
           include: {
+            address: true,
             amenities: true,
             photos: true,
+
             facilities: true,
+            lists: true,
             roomType: true,
             houseRules: true,
             reviews: {
@@ -27,6 +30,7 @@ const resolvers: Resolvers = {
           where: {
             roomId: id,
           },
+
           avg: {
             accuracy: true,
             communication: true,
@@ -43,6 +47,10 @@ const resolvers: Resolvers = {
 
           room: {
             ...room,
+            isLiked:
+              context.user && room?.lists
+                ? room.lists.some(list => list.userId === context.user?.id)
+                : false,
             averageRating: averages,
           },
         }

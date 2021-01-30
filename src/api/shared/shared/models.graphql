@@ -9,6 +9,7 @@ type Room {
   amenities: [Amenity]!
   houseRules: [HouseRule]!
   facilities: [Facility]!
+  isLiked: Boolean
   reviews: [Review]!
   reservations: [Reservation]!
   lists: [List]!
@@ -109,6 +110,7 @@ type Reservation {
   created: DateTime!
   updated: DateTime!
   guest: User
+  price: String!
   Room: Room
 }
 
