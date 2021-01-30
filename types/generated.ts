@@ -54,7 +54,7 @@ export type MutationDeleteListArgs = {
 
 
 export type MutationUpdateListArgs = {
-  id: Scalars['String'];
+  id?: Maybe<Scalars['String']>;
   roomId: Scalars['String'];
 };
 
@@ -616,7 +616,7 @@ export type CreateListResponseResolvers<ContextType = Context, ParentType extend
 export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createList?: Resolver<ResolversTypes['CreateListResponse'], ParentType, ContextType, RequireFields<MutationCreateListArgs, 'name'>>;
   deleteList?: Resolver<ResolversTypes['DeleteListResponse'], ParentType, ContextType, RequireFields<MutationDeleteListArgs, 'id'>>;
-  updateList?: Resolver<ResolversTypes['UpdateListResponse'], ParentType, ContextType, RequireFields<MutationUpdateListArgs, 'id' | 'roomId'>>;
+  updateList?: Resolver<ResolversTypes['UpdateListResponse'], ParentType, ContextType, RequireFields<MutationUpdateListArgs, 'roomId'>>;
   createPayment?: Resolver<ResolversTypes['CreatePaymentResponse'], ParentType, ContextType, RequireFields<MutationCreatePaymentArgs, 'reservation'>>;
   createReservation?: Resolver<ResolversTypes['CreateReservationResponse'], ParentType, ContextType, RequireFields<MutationCreateReservationArgs, 'checkIn' | 'checkOut' | 'price' | 'roomId'>>;
   createRoom?: Resolver<ResolversTypes['createRoomResponse'], ParentType, ContextType, RequireFields<MutationCreateRoomArgs, 'name' | 'price' | 'beds' | 'bedrooms' | 'bathroom' | 'guests' | 'checkIn' | 'checkOut'>>;

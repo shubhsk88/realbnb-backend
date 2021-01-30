@@ -2,10 +2,10 @@ import {Resolvers} from '@/types/generated'
 
 const resolvers: Resolvers = {
   Mutation: {
-    createList: async (_, args, {prisma, user}) => {
+    createList: async (_, {name, roomId}, {prisma, user}) => {
       if (!user)
-        return {ok: false, error: 'You are not logged in. Please log in'}
-      const {name, roomId} = args
+        return {ok: false, error: 'Unauthorized Access: user not logged in'}
+
       try {
         const {id} = await prisma.list.create({
           data: {
