@@ -1,5 +1,6 @@
 import {prisma} from '..'
 import {build, fake} from '@jackfranklin/test-data-bot'
+import {randomSelection} from '../utils/random'
 
 const createReviewFields = build('Review', {
   fields: {
@@ -11,7 +12,6 @@ const createReviewFields = build('Review', {
     value: fake(field => field.random.number(5)),
   },
 })
-export const selectRandom = (len: number) => Math.floor(Math.random() * len)
 
 interface ReviewFields {
   content: string
@@ -24,26 +24,26 @@ interface ReviewFields {
 
 const createReview = async () => {
   const users = await prisma.user.findMany({select: {id: true}})
-
   const rooms = await prisma.room.findMany({select: {id: true}})
 
-  for (let i = 0; i < 1; i++) {
+  for (let i = 0; i < rooms.length * 5; i++) {
     const reviewFields = createReviewFields() as ReviewFields
-    const randomUserIndex = selectRandom(users.length)
-    const randomRoomsIndex = selectRandom(rooms.length)
-    const user = users[randomUserIndex]
-    const room = rooms[randomRoomsIndex]
-    await prisma.review.create({
+
+    const user = randomSelection(users, 1)
+    const room = randomSelection(rooms, 1)
+
+    const data = await prisma.review.create({
       data: {
         ...reviewFields,
         User: {
-          connect: {id: user.id},
+          connect: user,
         },
         Room: {
-          connect: {id: room.id},
+          connect: room,
         },
       },
     })
+    console.log(data)
   }
 }
 

@@ -25,10 +25,7 @@ const resolvers: Resolvers = {
           rooms: likedRooms,
         }
       } catch (error) {
-        return {
-          ok: false,
-          error: error.message,
-        }
+        return {ok: false, error: error.message}
       }
     },
   },
