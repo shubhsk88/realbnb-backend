@@ -6,6 +6,8 @@ import helmet from 'helmet'
 import {ApolloServer} from 'apollo-server-express'
 import dotenv from 'dotenv'
 import schema from './schema'
+import 'module-alias/register'
+
 
 import {PrismaClient} from '@prisma/client'
 import expressJwt from 'express-jwt'
