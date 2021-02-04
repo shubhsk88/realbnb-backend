@@ -15,10 +15,12 @@ const resolvers: Resolvers = {
             rooms: {
               include: {
                 photos: true,
+                roomType: true,
               },
             },
           },
         })
+        
         return {ok: true, lists}
       } catch (error) {
         return {ok: false, error: error.message}
