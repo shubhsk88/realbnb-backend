@@ -1,4 +1,4 @@
-import {getRootPaths, createImageUpload} from '@/src/utils/imageUpload'
+import {getRootPaths, createImageUpload} from '../utils/imageUpload'
 import {prisma} from '..'
 const imageList = getRootPaths()
 

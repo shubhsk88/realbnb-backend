@@ -1,4 +1,4 @@
-import {Resolvers} from '@/types/generated'
+import {Resolvers} from '../../../../types/generated'
 
 const resolvers: Resolvers = {
   Query: {
@@ -20,7 +20,7 @@ const resolvers: Resolvers = {
             },
           },
         })
-        
+
         return {ok: true, lists}
       } catch (error) {
         return {ok: false, error: error.message}

@@ -1,5 +1,5 @@
-import {createSms} from '@/src/utils'
-import {Resolvers} from '@/types/generated'
+import {createSms} from '../../../../src/utils'
+import {Resolvers} from '../../../../types/generated'
 
 const resolvers: Resolvers = {
   Mutation: {

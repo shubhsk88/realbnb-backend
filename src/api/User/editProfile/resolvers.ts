@@ -1,5 +1,5 @@
-import {Resolvers} from '@/types/generated'
-import { nonNullable } from '@/src/utils'
+import {Resolvers} from '../../../../types/generated'
+import {nonNullable} from '../../../../src/utils'
 
 const resolvers: Resolvers = {
   Mutation: {
@@ -22,14 +22,14 @@ const resolvers: Resolvers = {
               create: {
                 address: address || '',
                 city: '',
-                country: ''
-              }
-            }
+                country: '',
+              },
+            },
           },
         },
       })
 
-      return { ok: true }
+      return {ok: true}
     },
   },
 }

@@ -11,6 +11,5 @@ const typeDefs = mergeTypeDefs(typesArray)
 const resolvers = mergeResolvers(resolversArray)
 
 const schema = makeExecutableSchema({typeDefs, resolvers})
-console.log(typeDefs)
 
 export default schema

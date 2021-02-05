@@ -1,5 +1,5 @@
-import {createToken} from '@/src/utils'
-import {Resolvers} from '@/types/generated'
+import {createToken} from '../../../../src/utils'
+import {Resolvers} from '../../../../types/generated'
 
 const resolvers: Resolvers = {
   Mutation: {

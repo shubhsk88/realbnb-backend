@@ -1,4 +1,4 @@
-import {Resolvers} from '@/types/generated'
+import {Resolvers} from '../../../../types/generated'
 import stripe from '../../../stripe'
 
 const resolvers: Resolvers = {

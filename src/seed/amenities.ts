@@ -38,5 +38,5 @@ const createAmenities = async (amenity: string) => {
 
 amenities.forEach(async amenity => {
   const data = await createAmenities(amenity)
-  console.log(data)
+  
 })
