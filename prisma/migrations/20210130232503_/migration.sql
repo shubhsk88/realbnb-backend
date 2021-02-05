@@ -33,13 +33,14 @@ CREATE TABLE "Room" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "hostId" TEXT NOT NULL,
     "addressId" TEXT NOT NULL,
-    "roomTypeId" TEXT NOT NULL,
+    "roomTypeId" INTEGER NOT NULL,
     "instantBook" BOOLEAN NOT NULL DEFAULT false,
     "name" TEXT NOT NULL,
     "price" REAL NOT NULL,
     "beds" INTEGER NOT NULL,
     "bedrooms" INTEGER NOT NULL,
-    "bathroom" INTEGER NOT NULL,
+    "isLiked" BOOLEAN,
+    "bathrooms" REAL NOT NULL,
     "guests" INTEGER NOT NULL,
     "checkIn" DATETIME NOT NULL,
     "checkOut" DATETIME NOT NULL,
@@ -53,25 +54,25 @@ CREATE TABLE "Room" (
 
 -- CreateTable
 CREATE TABLE "RoomType" (
-    "id" TEXT NOT NULL PRIMARY KEY,
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "name" TEXT NOT NULL
 );
 
 -- CreateTable
 CREATE TABLE "Amenity" (
-    "id" TEXT NOT NULL PRIMARY KEY,
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "name" TEXT NOT NULL
 );
 
 -- CreateTable
 CREATE TABLE "HouseRule" (
-    "id" TEXT NOT NULL PRIMARY KEY,
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "name" TEXT NOT NULL
 );
 
 -- CreateTable
 CREATE TABLE "Facility" (
-    "id" TEXT NOT NULL PRIMARY KEY,
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "name" TEXT NOT NULL
 );
 
@@ -86,10 +87,11 @@ CREATE TABLE "Review" (
     "communication" INTEGER NOT NULL,
     "checkIn" INTEGER NOT NULL,
     "value" INTEGER NOT NULL,
-    "userId" TEXT,
-    "roomId" TEXT,
-    FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
-    FOREIGN KEY ("roomId") REFERENCES "Room" ("id") ON DELETE SET NULL ON UPDATE CASCADE
+    "userId" TEXT NOT NULL,
+    "roomId" TEXT NOT NULL,
+    "averageRating" REAL NOT NULL DEFAULT -1,
+    FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY ("roomId") REFERENCES "Room" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -100,6 +102,7 @@ CREATE TABLE "Reservation" (
     "checkOut" DATETIME NOT NULL,
     "created" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "price" REAL NOT NULL DEFAULT 0,
     "guestId" TEXT,
     "roomId" TEXT,
     FOREIGN KEY ("guestId") REFERENCES "User" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
@@ -139,9 +142,7 @@ CREATE TABLE "Message" (
 CREATE TABLE "Photo" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "caption" TEXT NOT NULL,
-    "link" TEXT NOT NULL,
-    "roomId" TEXT,
-    FOREIGN KEY ("roomId") REFERENCES "Room" ("id") ON DELETE SET NULL ON UPDATE CASCADE
+    "link" TEXT NOT NULL
 );
 
 -- CreateTable
@@ -161,7 +162,7 @@ CREATE TABLE "_ChatToUser" (
 
 -- CreateTable
 CREATE TABLE "_AmenityToRoom" (
-    "A" TEXT NOT NULL,
+    "A" INTEGER NOT NULL,
     "B" TEXT NOT NULL,
     FOREIGN KEY ("A") REFERENCES "Amenity" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY ("B") REFERENCES "Room" ("id") ON DELETE CASCADE ON UPDATE CASCADE
@@ -169,7 +170,7 @@ CREATE TABLE "_AmenityToRoom" (
 
 -- CreateTable
 CREATE TABLE "_HouseRuleToRoom" (
-    "A" TEXT NOT NULL,
+    "A" INTEGER NOT NULL,
     "B" TEXT NOT NULL,
     FOREIGN KEY ("A") REFERENCES "HouseRule" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY ("B") REFERENCES "Room" ("id") ON DELETE CASCADE ON UPDATE CASCADE
@@ -177,7 +178,7 @@ CREATE TABLE "_HouseRuleToRoom" (
 
 -- CreateTable
 CREATE TABLE "_FacilityToRoom" (
-    "A" TEXT NOT NULL,
+    "A" INTEGER NOT NULL,
     "B" TEXT NOT NULL,
     FOREIGN KEY ("A") REFERENCES "Facility" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY ("B") REFERENCES "Room" ("id") ON DELETE CASCADE ON UPDATE CASCADE
@@ -191,8 +192,31 @@ CREATE TABLE "_ListToRoom" (
     FOREIGN KEY ("B") REFERENCES "Room" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+-- CreateTable
+CREATE TABLE "_PhotoToRoom" (
+    "A" TEXT NOT NULL,
+    "B" TEXT NOT NULL,
+    FOREIGN KEY ("A") REFERENCES "Photo" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY ("B") REFERENCES "Room" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "User.email_unique" ON "User"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_addressId_unique" ON "User"("addressId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Room_addressId_unique" ON "Room"("addressId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "RoomType.name_unique" ON "RoomType"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Amenity.name_unique" ON "Amenity"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "HouseRule.name_unique" ON "HouseRule"("name");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Verification.key_unique" ON "Verification"("key");
@@ -229,3 +253,9 @@ CREATE UNIQUE INDEX "_ListToRoom_AB_unique" ON "_ListToRoom"("A", "B");
 
 -- CreateIndex
 CREATE INDEX "_ListToRoom_B_index" ON "_ListToRoom"("B");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "_PhotoToRoom_AB_unique" ON "_PhotoToRoom"("A", "B");
+
+-- CreateIndex
+CREATE INDEX "_PhotoToRoom_B_index" ON "_PhotoToRoom"("B");

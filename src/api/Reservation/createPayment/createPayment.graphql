@@ -1,0 +1,17 @@
+type CreatePaymentResponse {
+  ok: Boolean!
+  error: String
+  clientSecret: String
+}
+
+input ReservationInput {
+  price: Float!
+  roomId: String!
+}
+
+type Mutation {
+  createPayment(
+    reservation: ReservationInput!
+    currency: String
+  ): CreatePaymentResponse!
+}

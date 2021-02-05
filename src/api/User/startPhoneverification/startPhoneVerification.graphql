@@ -1,0 +1,21 @@
+type startPhoneVerificationResponse {
+  ok: Boolean!
+  error: String
+  token: String
+}
+
+type Mutation {
+  startPhoneVerification(phoneNumber: String!): startPhoneVerificationResponse!
+}
+
+schema {
+  query: Query
+}
+
+type Query {
+  hello: String
+}
+
+query Hello {
+  hello
+}

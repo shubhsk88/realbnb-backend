@@ -6,14 +6,28 @@ import helmet from 'helmet'
 import {ApolloServer} from 'apollo-server-express'
 import dotenv from 'dotenv'
 import schema from './schema'
+
 import {PrismaClient} from '@prisma/client'
 import expressJwt from 'express-jwt'
-import {env, decodeUser} from '@/src/utils'
+import {env, decodeUser} from '../src/utils'
 
 dotenv.config()
 
-const port = process.env.PORT
+const port = process.env.PORT || 4000
 const prisma = new PrismaClient()
+
+prisma.$use(async (params, next) => {
+  const mutationActions = ['create', 'update', 'delete']
+  if (params.model === 'Review' && mutationActions.includes(params.action)) {
+    const {accuracy, communication, location, value, checkIn} = params.args.data
+    params.args.data.averageRating =
+      (accuracy + communication + location + value + checkIn) / 5
+  }
+
+  const result = await next(params)
+
+  return result
+})
 
 export interface Context {
   prisma: PrismaClient
@@ -30,10 +44,10 @@ const server = new ApolloServer({
   schema,
   context: async ({req}: {req: ReqObject}) => {
     const user = req.user ? await decodeUser(req.user.id) : null
-    console.log(user)
     return {prisma, user}
   },
 })
+
 const app = express()
 app.use(cors())
 app.use(helmet())

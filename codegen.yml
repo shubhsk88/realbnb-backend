@@ -8,7 +8,7 @@ generates:
       defaultMapper: any
       contextType: ./customTypes#Context
       reactApolloVersion: 3
-      withHooks: true
+      withHooks: false
       withHOC: false
 
     plugins:

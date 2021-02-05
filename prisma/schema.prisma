@@ -66,6 +66,7 @@ model Room {
   photos       Photo[]
   beds         Int
   bedrooms     Int
+  isLiked      Boolean?
   bathrooms    Float
   guests       Int
   checkIn      DateTime
@@ -113,6 +114,7 @@ model Review {
   userId        String
   Room          Room     @relation(fields: [roomId], references: [id])
   roomId        String
+  averageRating Float    @default(-1)
 }
 
 model Reservation {
@@ -122,6 +124,7 @@ model Reservation {
   checkOut DateTime
   created  DateTime @default(now())
   updated  DateTime @default(now())
+  price    Float    @default(0)
 
   guest   User?   @relation(fields: [guestId], references: [id])
   guestId String?
@@ -161,11 +164,15 @@ model Message {
 }
 
 model Photo {
-  id      String  @id @default(cuid())
+  id      String @id @default(cuid())
   caption String
   link    String
-  Room    Room?   @relation(fields: [roomId], references: [id])
-  roomId  String?
+  //  **** NOTICE: photo should only belong to one room ****
+  //  many-to-many relationship is enabled for dev purposes to allow photos to be reused in a smaller
+  //  photo test set
+  Room    Room[]
+  // Room    Room?   @relation(fields: [roomId], references: [id])
+  // roomId  String?
 }
 
 model Verification {

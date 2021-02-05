@@ -1,4 +1,4 @@
-import {Resolvers} from '@/types/generated'
+import {Resolvers} from '../../../../types/generated'
 
 const resolvers: Resolvers = {
   Query: {
@@ -10,19 +10,22 @@ const resolvers: Resolvers = {
             roomType: true,
             amenities: true,
             facilities: true,
-            
-            
+            lists: true,
           },
         })
+        const likedRooms = rooms.map(room => ({
+          ...room,
+          isLiked: context.user
+            ? room.lists.some(list => list.userId === context.user?.id)
+            : false,
+        }))
+
         return {
           ok: true,
-          rooms,
+          rooms: likedRooms,
         }
       } catch (error) {
-        return {
-          ok: false,
-          error: error.message,
-        }
+        return {ok: false, error: error.message}
       }
     },
   },

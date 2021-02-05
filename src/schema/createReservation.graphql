@@ -1,0 +1,13 @@
+type CreateReservationResponse {
+  ok: Boolean!
+  error: String
+}
+
+type Mutation {
+  createReservation(
+    checkIn: DateTime!
+    checkOut: DateTime!
+    price: Float!
+    roomId: String!
+  ): CreateReservationResponse!
+}

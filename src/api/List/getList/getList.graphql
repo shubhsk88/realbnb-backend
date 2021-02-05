@@ -1,0 +1,9 @@
+type getListResponse{
+    ok:Boolean!
+    error:String
+    lists:[List]
+}
+
+type Query{
+    getList:getListResponse!
+}

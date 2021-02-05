@@ -35,11 +35,8 @@ const createAmenities = async (amenity: string) => {
     },
   })
 }
-const runLoop = async () => {
-  for (let amenity of amenities) {
-    const data = await createAmenities(amenity)
-    console.log(data)
-  }
-}
 
-runLoop()
+amenities.forEach(async amenity => {
+  const data = await createAmenities(amenity)
+  
+})

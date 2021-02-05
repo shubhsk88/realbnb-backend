@@ -7,7 +7,6 @@ const num = Math.floor(Math.random() * 10)
 const lang = ['en', 'hi', 'de', 'ko']
 const fakeUser = build('User', {
   fields: {
-    
     name: fake(user => user.name.findName()),
     email: fake(user => user.internet.email()),
     password: fake(user => user.internet.password()),
@@ -23,7 +22,6 @@ const fakeUser = build('User', {
 const createUser = async () => {
   for (let i = 0; i < 20; i++) {
     const user = fakeUser() as User
-    console.log(user.password)
     try {
       const data = await prisma.user.create({
         data: user,

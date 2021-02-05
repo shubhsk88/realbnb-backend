@@ -18,14 +18,19 @@ export type Scalars = {
   DateTime: any;
 };
 
-export type CreateRoomResponse = {
-  __typename?: 'createRoomResponse';
+export type CreateListResponse = {
+  __typename?: 'CreateListResponse';
   ok: Scalars['Boolean'];
   error?: Maybe<Scalars['String']>;
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createList: CreateListResponse;
+  deleteList: DeleteListResponse;
+  updateList: UpdateListResponse;
+  createPayment: CreatePaymentResponse;
+  createReservation: CreateReservationResponse;
   createRoom: CreateRoomResponse;
   completePhoneVerification: CompletePhoneVerificationResponse;
   createUserViaPhone: CreateUserViaPhoneResponse;
@@ -33,7 +38,38 @@ export type Mutation = {
   emailSignIn: EmailSignInResponse;
   emailSignUp: EmailSignUpResponse;
   googleSignIn: GoogleSignInResponse;
-  phoneVerification: PhoneVerificationResponse;
+  startPhoneVerification: StartPhoneVerificationResponse;
+};
+
+
+export type MutationCreateListArgs = {
+  name: Scalars['String'];
+  roomId?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationDeleteListArgs = {
+  id: Scalars['String'];
+};
+
+
+export type MutationUpdateListArgs = {
+  id?: Maybe<Scalars['String']>;
+  roomId: Scalars['String'];
+};
+
+
+export type MutationCreatePaymentArgs = {
+  reservation: ReservationInput;
+  currency?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationCreateReservationArgs = {
+  checkIn: Scalars['DateTime'];
+  checkOut: Scalars['DateTime'];
+  price: Scalars['Float'];
+  roomId: Scalars['String'];
 };
 
 
@@ -97,8 +133,72 @@ export type MutationGoogleSignInArgs = {
 };
 
 
-export type MutationPhoneVerificationArgs = {
+export type MutationStartPhoneVerificationArgs = {
   phoneNumber: Scalars['String'];
+};
+
+export type DeleteListResponse = {
+  __typename?: 'DeleteListResponse';
+  ok: Scalars['Boolean'];
+  error?: Maybe<Scalars['String']>;
+};
+
+export type GetListResponse = {
+  __typename?: 'getListResponse';
+  ok: Scalars['Boolean'];
+  error?: Maybe<Scalars['String']>;
+  lists?: Maybe<Array<Maybe<List>>>;
+};
+
+export type Query = {
+  __typename?: 'Query';
+  getList: GetListResponse;
+  getRoom: GetRoomResponse;
+  getRooms: GetRoomsResponse;
+  getUserProfile: GetUserProfileResponse;
+  hello?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryGetRoomArgs = {
+  id: Scalars['String'];
+};
+
+export type UpdateListResponse = {
+  __typename?: 'UpdateListResponse';
+  ok: Scalars['Boolean'];
+  error?: Maybe<Scalars['String']>;
+};
+
+export type CreatePaymentResponse = {
+  __typename?: 'CreatePaymentResponse';
+  ok: Scalars['Boolean'];
+  error?: Maybe<Scalars['String']>;
+  clientSecret?: Maybe<Scalars['String']>;
+};
+
+export type ReservationInput = {
+  price: Scalars['Float'];
+  roomId: Scalars['String'];
+};
+
+export type CreateReservationResponse = {
+  __typename?: 'CreateReservationResponse';
+  ok: Scalars['Boolean'];
+  error?: Maybe<Scalars['String']>;
+};
+
+export type CreateRoomResponse = {
+  __typename?: 'createRoomResponse';
+  ok: Scalars['Boolean'];
+  error?: Maybe<Scalars['String']>;
+};
+
+export type GetRoomResponse = {
+  __typename?: 'getRoomResponse';
+  ok: Scalars['Boolean'];
+  error?: Maybe<Scalars['String']>;
+  room?: Maybe<Room>;
 };
 
 export type GetRoomsResponse = {
@@ -106,13 +206,6 @@ export type GetRoomsResponse = {
   ok: Scalars['Boolean'];
   error?: Maybe<Scalars['String']>;
   rooms?: Maybe<Array<Maybe<Room>>>;
-};
-
-export type Query = {
-  __typename?: 'Query';
-  getRooms: GetRoomsResponse;
-  getUserProfile: GetUserProfileResponse;
-  hello?: Maybe<Scalars['String']>;
 };
 
 export type CompletePhoneVerificationResponse = {
@@ -163,8 +256,8 @@ export type GoogleSignInResponse = {
   token?: Maybe<Scalars['String']>;
 };
 
-export type PhoneVerificationResponse = {
-  __typename?: 'phoneVerificationResponse';
+export type StartPhoneVerificationResponse = {
+  __typename?: 'startPhoneVerificationResponse';
   ok: Scalars['Boolean'];
   error?: Maybe<Scalars['String']>;
   token?: Maybe<Scalars['String']>;
@@ -180,6 +273,7 @@ export type Amenity = {
 export type Room = {
   __typename?: 'Room';
   id: Scalars['String'];
+  name: Scalars['String'];
   host: User;
   hostId: Scalars['String'];
   address: Address;
@@ -188,6 +282,7 @@ export type Room = {
   amenities: Array<Maybe<Amenity>>;
   houseRules: Array<Maybe<HouseRule>>;
   facilities: Array<Maybe<Facility>>;
+  isLiked?: Maybe<Scalars['Boolean']>;
   reviews: Array<Maybe<Review>>;
   reservations: Array<Maybe<Reservation>>;
   lists: Array<Maybe<List>>;
@@ -196,13 +291,14 @@ export type Room = {
   photos: Array<Maybe<Photo>>;
   beds: Scalars['Int'];
   bedrooms: Scalars['Int'];
-  bathroom: Scalars['Int'];
+  bathrooms: Scalars['Float'];
   guests: Scalars['Int'];
   checkIn: Scalars['DateTime'];
   checkOut: Scalars['DateTime'];
   created: Scalars['DateTime'];
   updated: Scalars['DateTime'];
   description: Scalars['String'];
+  averageRating: AverageReviewRating;
 };
 
 export type Address = {
@@ -262,6 +358,15 @@ export type Facility = {
   room: Array<Maybe<Room>>;
 };
 
+export type AverageReviewRating = {
+  __typename?: 'AverageReviewRating';
+  accuracy: Scalars['Float'];
+  location: Scalars['Float'];
+  communication: Scalars['Float'];
+  value: Scalars['Float'];
+  checkIn: Scalars['Float'];
+};
+
 export type Review = {
   __typename?: 'Review';
   id: Scalars['String'];
@@ -275,6 +380,7 @@ export type Review = {
   value: Scalars['Int'];
   User: User;
   Room: Room;
+  averageRating: Scalars['Float'];
 };
 
 export type Reservation = {
@@ -286,6 +392,7 @@ export type Reservation = {
   created: Scalars['DateTime'];
   updated: Scalars['DateTime'];
   guest?: Maybe<User>;
+  price: Scalars['String'];
   Room?: Maybe<Room>;
 };
 
@@ -414,14 +521,22 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
-  createRoomResponse: ResolverTypeWrapper<any>;
+  CreateListResponse: ResolverTypeWrapper<any>;
   Boolean: ResolverTypeWrapper<any>;
   String: ResolverTypeWrapper<any>;
   Mutation: ResolverTypeWrapper<{}>;
   Float: ResolverTypeWrapper<any>;
   Int: ResolverTypeWrapper<any>;
-  getRoomsResponse: ResolverTypeWrapper<any>;
+  DeleteListResponse: ResolverTypeWrapper<any>;
+  getListResponse: ResolverTypeWrapper<any>;
   Query: ResolverTypeWrapper<{}>;
+  UpdateListResponse: ResolverTypeWrapper<any>;
+  CreatePaymentResponse: ResolverTypeWrapper<any>;
+  ReservationInput: ResolverTypeWrapper<any>;
+  CreateReservationResponse: ResolverTypeWrapper<any>;
+  createRoomResponse: ResolverTypeWrapper<any>;
+  getRoomResponse: ResolverTypeWrapper<any>;
+  getRoomsResponse: ResolverTypeWrapper<any>;
   completePhoneVerificationResponse: ResolverTypeWrapper<any>;
   DateTime: ResolverTypeWrapper<any>;
   createUserViaPhoneResponse: ResolverTypeWrapper<any>;
@@ -430,7 +545,7 @@ export type ResolversTypes = {
   emailSignUpResponse: ResolverTypeWrapper<any>;
   getUserProfileResponse: ResolverTypeWrapper<any>;
   googleSignInResponse: ResolverTypeWrapper<any>;
-  phoneVerificationResponse: ResolverTypeWrapper<any>;
+  startPhoneVerificationResponse: ResolverTypeWrapper<any>;
   Amenity: ResolverTypeWrapper<any>;
   Room: ResolverTypeWrapper<any>;
   Address: ResolverTypeWrapper<any>;
@@ -438,6 +553,7 @@ export type ResolversTypes = {
   RoomType: ResolverTypeWrapper<any>;
   HouseRule: ResolverTypeWrapper<any>;
   Facility: ResolverTypeWrapper<any>;
+  AverageReviewRating: ResolverTypeWrapper<any>;
   Review: ResolverTypeWrapper<any>;
   Reservation: ResolverTypeWrapper<any>;
   List: ResolverTypeWrapper<any>;
@@ -449,14 +565,22 @@ export type ResolversTypes = {
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
-  createRoomResponse: any;
+  CreateListResponse: any;
   Boolean: any;
   String: any;
   Mutation: {};
   Float: any;
   Int: any;
-  getRoomsResponse: any;
+  DeleteListResponse: any;
+  getListResponse: any;
   Query: {};
+  UpdateListResponse: any;
+  CreatePaymentResponse: any;
+  ReservationInput: any;
+  CreateReservationResponse: any;
+  createRoomResponse: any;
+  getRoomResponse: any;
+  getRoomsResponse: any;
   completePhoneVerificationResponse: any;
   DateTime: any;
   createUserViaPhoneResponse: any;
@@ -465,7 +589,7 @@ export type ResolversParentTypes = {
   emailSignUpResponse: any;
   getUserProfileResponse: any;
   googleSignInResponse: any;
-  phoneVerificationResponse: any;
+  startPhoneVerificationResponse: any;
   Amenity: any;
   Room: any;
   Address: any;
@@ -473,6 +597,7 @@ export type ResolversParentTypes = {
   RoomType: any;
   HouseRule: any;
   Facility: any;
+  AverageReviewRating: any;
   Review: any;
   Reservation: any;
   List: any;
@@ -482,13 +607,18 @@ export type ResolversParentTypes = {
   Verification: any;
 };
 
-export type CreateRoomResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['createRoomResponse'] = ResolversParentTypes['createRoomResponse']> = {
+export type CreateListResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['CreateListResponse'] = ResolversParentTypes['CreateListResponse']> = {
   ok?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  createList?: Resolver<ResolversTypes['CreateListResponse'], ParentType, ContextType, RequireFields<MutationCreateListArgs, 'name'>>;
+  deleteList?: Resolver<ResolversTypes['DeleteListResponse'], ParentType, ContextType, RequireFields<MutationDeleteListArgs, 'id'>>;
+  updateList?: Resolver<ResolversTypes['UpdateListResponse'], ParentType, ContextType, RequireFields<MutationUpdateListArgs, 'roomId'>>;
+  createPayment?: Resolver<ResolversTypes['CreatePaymentResponse'], ParentType, ContextType, RequireFields<MutationCreatePaymentArgs, 'reservation'>>;
+  createReservation?: Resolver<ResolversTypes['CreateReservationResponse'], ParentType, ContextType, RequireFields<MutationCreateReservationArgs, 'checkIn' | 'checkOut' | 'price' | 'roomId'>>;
   createRoom?: Resolver<ResolversTypes['createRoomResponse'], ParentType, ContextType, RequireFields<MutationCreateRoomArgs, 'name' | 'price' | 'beds' | 'bedrooms' | 'bathroom' | 'guests' | 'checkIn' | 'checkOut'>>;
   completePhoneVerification?: Resolver<ResolversTypes['completePhoneVerificationResponse'], ParentType, ContextType, RequireFields<MutationCompletePhoneVerificationArgs, 'phoneNumber' | 'key'>>;
   createUserViaPhone?: Resolver<ResolversTypes['createUserViaPhoneResponse'], ParentType, ContextType, RequireFields<MutationCreateUserViaPhoneArgs, 'email' | 'password' | 'name' | 'phone'>>;
@@ -496,7 +626,60 @@ export type MutationResolvers<ContextType = Context, ParentType extends Resolver
   emailSignIn?: Resolver<ResolversTypes['emailSignInResponse'], ParentType, ContextType, RequireFields<MutationEmailSignInArgs, 'email' | 'password'>>;
   emailSignUp?: Resolver<ResolversTypes['emailSignUpResponse'], ParentType, ContextType, RequireFields<MutationEmailSignUpArgs, 'email' | 'password' | 'name'>>;
   googleSignIn?: Resolver<ResolversTypes['googleSignInResponse'], ParentType, ContextType, RequireFields<MutationGoogleSignInArgs, 'email' | 'avatar' | 'name' | 'googleId'>>;
-  phoneVerification?: Resolver<ResolversTypes['phoneVerificationResponse'], ParentType, ContextType, RequireFields<MutationPhoneVerificationArgs, 'phoneNumber'>>;
+  startPhoneVerification?: Resolver<ResolversTypes['startPhoneVerificationResponse'], ParentType, ContextType, RequireFields<MutationStartPhoneVerificationArgs, 'phoneNumber'>>;
+};
+
+export type DeleteListResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['DeleteListResponse'] = ResolversParentTypes['DeleteListResponse']> = {
+  ok?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type GetListResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['getListResponse'] = ResolversParentTypes['getListResponse']> = {
+  ok?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  lists?: Resolver<Maybe<Array<Maybe<ResolversTypes['List']>>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  getList?: Resolver<ResolversTypes['getListResponse'], ParentType, ContextType>;
+  getRoom?: Resolver<ResolversTypes['getRoomResponse'], ParentType, ContextType, RequireFields<QueryGetRoomArgs, 'id'>>;
+  getRooms?: Resolver<ResolversTypes['getRoomsResponse'], ParentType, ContextType>;
+  getUserProfile?: Resolver<ResolversTypes['getUserProfileResponse'], ParentType, ContextType>;
+  hello?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+};
+
+export type UpdateListResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['UpdateListResponse'] = ResolversParentTypes['UpdateListResponse']> = {
+  ok?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreatePaymentResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['CreatePaymentResponse'] = ResolversParentTypes['CreatePaymentResponse']> = {
+  ok?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  clientSecret?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateReservationResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['CreateReservationResponse'] = ResolversParentTypes['CreateReservationResponse']> = {
+  ok?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CreateRoomResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['createRoomResponse'] = ResolversParentTypes['createRoomResponse']> = {
+  ok?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type GetRoomResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['getRoomResponse'] = ResolversParentTypes['getRoomResponse']> = {
+  ok?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  room?: Resolver<Maybe<ResolversTypes['Room']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type GetRoomsResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['getRoomsResponse'] = ResolversParentTypes['getRoomsResponse']> = {
@@ -504,12 +687,6 @@ export type GetRoomsResponseResolvers<ContextType = Context, ParentType extends 
   error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   rooms?: Resolver<Maybe<Array<Maybe<ResolversTypes['Room']>>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  getRooms?: Resolver<ResolversTypes['getRoomsResponse'], ParentType, ContextType>;
-  getUserProfile?: Resolver<ResolversTypes['getUserProfileResponse'], ParentType, ContextType>;
-  hello?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 };
 
 export type CompletePhoneVerificationResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['completePhoneVerificationResponse'] = ResolversParentTypes['completePhoneVerificationResponse']> = {
@@ -563,7 +740,7 @@ export type GoogleSignInResponseResolvers<ContextType = Context, ParentType exte
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type PhoneVerificationResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['phoneVerificationResponse'] = ResolversParentTypes['phoneVerificationResponse']> = {
+export type StartPhoneVerificationResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['startPhoneVerificationResponse'] = ResolversParentTypes['startPhoneVerificationResponse']> = {
   ok?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -579,6 +756,7 @@ export type AmenityResolvers<ContextType = Context, ParentType extends Resolvers
 
 export type RoomResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Room'] = ResolversParentTypes['Room']> = {
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   host?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   hostId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   address?: Resolver<ResolversTypes['Address'], ParentType, ContextType>;
@@ -587,6 +765,7 @@ export type RoomResolvers<ContextType = Context, ParentType extends ResolversPar
   amenities?: Resolver<Array<Maybe<ResolversTypes['Amenity']>>, ParentType, ContextType>;
   houseRules?: Resolver<Array<Maybe<ResolversTypes['HouseRule']>>, ParentType, ContextType>;
   facilities?: Resolver<Array<Maybe<ResolversTypes['Facility']>>, ParentType, ContextType>;
+  isLiked?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   reviews?: Resolver<Array<Maybe<ResolversTypes['Review']>>, ParentType, ContextType>;
   reservations?: Resolver<Array<Maybe<ResolversTypes['Reservation']>>, ParentType, ContextType>;
   lists?: Resolver<Array<Maybe<ResolversTypes['List']>>, ParentType, ContextType>;
@@ -595,13 +774,14 @@ export type RoomResolvers<ContextType = Context, ParentType extends ResolversPar
   photos?: Resolver<Array<Maybe<ResolversTypes['Photo']>>, ParentType, ContextType>;
   beds?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   bedrooms?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  bathroom?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  bathrooms?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   guests?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   checkIn?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   checkOut?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   created?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   updated?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  averageRating?: Resolver<ResolversTypes['AverageReviewRating'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -662,6 +842,15 @@ export type FacilityResolvers<ContextType = Context, ParentType extends Resolver
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type AverageReviewRatingResolvers<ContextType = Context, ParentType extends ResolversParentTypes['AverageReviewRating'] = ResolversParentTypes['AverageReviewRating']> = {
+  accuracy?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  location?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  communication?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  value?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  checkIn?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type ReviewResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Review'] = ResolversParentTypes['Review']> = {
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -674,6 +863,7 @@ export type ReviewResolvers<ContextType = Context, ParentType extends ResolversP
   value?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   User?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   Room?: Resolver<ResolversTypes['Room'], ParentType, ContextType>;
+  averageRating?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -685,6 +875,7 @@ export type ReservationResolvers<ContextType = Context, ParentType extends Resol
   created?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   updated?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   guest?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  price?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   Room?: Resolver<Maybe<ResolversTypes['Room']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -737,10 +928,17 @@ export type VerificationResolvers<ContextType = Context, ParentType extends Reso
 };
 
 export type Resolvers<ContextType = Context> = {
-  createRoomResponse?: CreateRoomResponseResolvers<ContextType>;
+  CreateListResponse?: CreateListResponseResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
-  getRoomsResponse?: GetRoomsResponseResolvers<ContextType>;
+  DeleteListResponse?: DeleteListResponseResolvers<ContextType>;
+  getListResponse?: GetListResponseResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  UpdateListResponse?: UpdateListResponseResolvers<ContextType>;
+  CreatePaymentResponse?: CreatePaymentResponseResolvers<ContextType>;
+  CreateReservationResponse?: CreateReservationResponseResolvers<ContextType>;
+  createRoomResponse?: CreateRoomResponseResolvers<ContextType>;
+  getRoomResponse?: GetRoomResponseResolvers<ContextType>;
+  getRoomsResponse?: GetRoomsResponseResolvers<ContextType>;
   completePhoneVerificationResponse?: CompletePhoneVerificationResponseResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
   createUserViaPhoneResponse?: CreateUserViaPhoneResponseResolvers<ContextType>;
@@ -749,7 +947,7 @@ export type Resolvers<ContextType = Context> = {
   emailSignUpResponse?: EmailSignUpResponseResolvers<ContextType>;
   getUserProfileResponse?: GetUserProfileResponseResolvers<ContextType>;
   googleSignInResponse?: GoogleSignInResponseResolvers<ContextType>;
-  phoneVerificationResponse?: PhoneVerificationResponseResolvers<ContextType>;
+  startPhoneVerificationResponse?: StartPhoneVerificationResponseResolvers<ContextType>;
   Amenity?: AmenityResolvers<ContextType>;
   Room?: RoomResolvers<ContextType>;
   Address?: AddressResolvers<ContextType>;
@@ -757,6 +955,7 @@ export type Resolvers<ContextType = Context> = {
   RoomType?: RoomTypeResolvers<ContextType>;
   HouseRule?: HouseRuleResolvers<ContextType>;
   Facility?: FacilityResolvers<ContextType>;
+  AverageReviewRating?: AverageReviewRatingResolvers<ContextType>;
   Review?: ReviewResolvers<ContextType>;
   Reservation?: ReservationResolvers<ContextType>;
   List?: ListResolvers<ContextType>;
@@ -787,28 +986,4 @@ export const HelloDocument = gql`
   hello
 }
     `;
-
-/**
- * __useHelloQuery__
- *
- * To run a query within a React component, call `useHelloQuery` and pass it any options that fit your needs.
- * When your component renders, `useHelloQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useHelloQuery({
- *   variables: {
- *   },
- * });
- */
-export function useHelloQuery(baseOptions?: Apollo.QueryHookOptions<HelloQuery, HelloQueryVariables>) {
-        return Apollo.useQuery<HelloQuery, HelloQueryVariables>(HelloDocument, baseOptions);
-      }
-export function useHelloLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HelloQuery, HelloQueryVariables>) {
-          return Apollo.useLazyQuery<HelloQuery, HelloQueryVariables>(HelloDocument, baseOptions);
-        }
-export type HelloQueryHookResult = ReturnType<typeof useHelloQuery>;
-export type HelloLazyQueryHookResult = ReturnType<typeof useHelloLazyQuery>;
 export type HelloQueryResult = Apollo.QueryResult<HelloQuery, HelloQueryVariables>;

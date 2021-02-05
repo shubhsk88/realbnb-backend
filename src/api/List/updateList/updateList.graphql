@@ -1,0 +1,8 @@
+type UpdateListResponse {
+  ok: Boolean!
+  error: String
+}
+
+type Mutation {
+  updateList(id: String, roomId: String!): UpdateListResponse!
+}

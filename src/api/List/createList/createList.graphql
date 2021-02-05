@@ -1,0 +1,8 @@
+type CreateListResponse {
+  ok: Boolean!
+  error: String
+}
+
+type Mutation {
+  createList(name: String!, roomId: String): CreateListResponse!
+}

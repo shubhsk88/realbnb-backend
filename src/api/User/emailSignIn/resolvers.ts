@@ -1,5 +1,5 @@
-import {Resolvers} from '@/types/generated'
-import {comparePassword, createToken} from '@/src/utils'
+import {Resolvers} from '../../../../types/generated'
+import {comparePassword, createToken} from '../../../../src/utils'
 
 const resolvers: Resolvers = {
   Mutation: {

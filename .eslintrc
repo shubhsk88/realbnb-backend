@@ -19,6 +19,7 @@
   ],
   "ignorePatterns": ["node_modules/"],
   "rules": {
-    "no-console": 1
+    "no-console": 1,
+    "no-duplicate-imports": "error"
   }
 }

@@ -1,0 +1,5 @@
+type Amenity {
+  id: String!
+  name: String!
+  room: [Room]!
+}
