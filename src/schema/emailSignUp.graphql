@@ -1,0 +1,16 @@
+scalar DateTime
+
+type emailSignUpResponse {
+  ok: Boolean!
+  error: String
+  token: String
+}
+
+type Mutation {
+  emailSignUp(
+    email: String!
+    password: String!
+    name: String!
+    birthDate: String
+  ): emailSignUpResponse!
+}

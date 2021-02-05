@@ -12,7 +12,7 @@ const resolvers: Resolvers = {
           amount: price,
           currency: updatedCurrency,
         })
-        console.log(paymentIntent)
+        
         if (paymentIntent.client_secret)
           return {ok: true, clientSecret: paymentIntent.client_secret}
         else return {ok: false, error: 'Unexpected Error occured'}

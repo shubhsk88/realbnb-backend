@@ -1,0 +1,8 @@
+type DeleteListResponse {
+  ok: Boolean!
+  error: String
+}
+
+type Mutation {
+  deleteList(id: String!): DeleteListResponse!
+}

@@ -8,7 +8,7 @@
       "@/src/utils": ["src/utils/index"],
       "@/types/*": ["types/*"]
     },
-
+    "typeRoots": ["node_modules/@types", "types"],
     "skipLibCheck": true,
     "sourceMap": true,
     "outDir": "dist",
@@ -29,5 +29,6 @@
     "resolveJsonModule": true,
     "baseUrl": "."
   },
+
   "exclude": ["node_modules"]
 }

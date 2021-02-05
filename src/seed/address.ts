@@ -16,7 +16,7 @@ const runLoop = async () => {
     const data = await prisma.address.create({
       data: address,
     })
-    console.log(data)
+    
   }
 }
 
