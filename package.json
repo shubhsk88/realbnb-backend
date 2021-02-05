@@ -9,7 +9,8 @@
     "dev2": "nodemon dist/src/index.js",
     "watch": "tsc -w",
     "ts-gen": "tsc .",
-    "build": "tsc && mkdir -p ./dist/src/schema &&  cp ./src/schema/*.graphql ./dist/src/schema && node ./dist/src/index.js",
+    "build": "tsc && mkdir -p ./dist/src/schema &&  cp ./src/schema/*.graphql ./dist/src/schema",
+    "start": "node ./dist/src/index.js",
     "seed": "ts-node -r tsconfig-paths/register src/algolia.ts",
     "generate": "graphql-codegen --config codegen.yml",
     "watch-prisma": "nodemon --exec prisma migrate dev --preview-feature prisma/schema.prisma"
