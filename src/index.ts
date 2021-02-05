@@ -13,7 +13,7 @@ import {env, decodeUser} from '../src/utils'
 
 dotenv.config()
 
-const port = process.env.PORT
+const port = process.env.PORT || 4000
 const prisma = new PrismaClient()
 
 prisma.$use(async (params, next) => {
