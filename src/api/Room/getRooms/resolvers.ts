@@ -13,6 +13,7 @@ const resolvers: Resolvers = {
             lists: true,
           },
         })
+        console.log(rooms)
         const likedRooms = rooms.map(room => ({
           ...room,
           isLiked: context.user

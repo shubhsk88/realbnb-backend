@@ -14,48 +14,49 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  /** A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
   DateTime: any;
 };
 
-export type CreateListResponse = {
-  __typename?: 'CreateListResponse';
+export type Amenity = {
+  __typename?: 'Amenity';
+  id: Scalars['String'];
+  name: Scalars['String'];
+  room: Array<Maybe<Room>>;
+};
+
+export type CompletePhoneVerificationResponse = {
+  __typename?: 'completePhoneVerificationResponse';
   ok: Scalars['Boolean'];
   error?: Maybe<Scalars['String']>;
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
+  completePhoneVerification: CompletePhoneVerificationResponse;
   createList: CreateListResponse;
-  deleteList: DeleteListResponse;
-  updateList: UpdateListResponse;
   createPayment: CreatePaymentResponse;
   createReservation: CreateReservationResponse;
   createRoom: CreateRoomResponse;
-  completePhoneVerification: CompletePhoneVerificationResponse;
   createUserViaPhone: CreateUserViaPhoneResponse;
+  deleteList: DeleteListResponse;
   editProfile: EditProfileResponse;
   emailSignIn: EmailSignInResponse;
   emailSignUp: EmailSignUpResponse;
   googleSignIn: GoogleSignInResponse;
   startPhoneVerification: StartPhoneVerificationResponse;
+  updateList: UpdateListResponse;
+};
+
+
+export type MutationCompletePhoneVerificationArgs = {
+  phoneNumber: Scalars['String'];
+  key: Scalars['String'];
 };
 
 
 export type MutationCreateListArgs = {
   name: Scalars['String'];
   roomId?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationDeleteListArgs = {
-  id: Scalars['String'];
-};
-
-
-export type MutationUpdateListArgs = {
-  id?: Maybe<Scalars['String']>;
-  roomId: Scalars['String'];
 };
 
 
@@ -85,18 +86,17 @@ export type MutationCreateRoomArgs = {
 };
 
 
-export type MutationCompletePhoneVerificationArgs = {
-  phoneNumber: Scalars['String'];
-  key: Scalars['String'];
-};
-
-
 export type MutationCreateUserViaPhoneArgs = {
   email: Scalars['String'];
   password: Scalars['String'];
   name: Scalars['String'];
   phone: Scalars['String'];
   birthDate?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationDeleteListArgs = {
+  id: Scalars['String'];
 };
 
 
@@ -137,35 +137,14 @@ export type MutationStartPhoneVerificationArgs = {
   phoneNumber: Scalars['String'];
 };
 
-export type DeleteListResponse = {
-  __typename?: 'DeleteListResponse';
-  ok: Scalars['Boolean'];
-  error?: Maybe<Scalars['String']>;
+
+export type MutationUpdateListArgs = {
+  id?: Maybe<Scalars['String']>;
+  roomId: Scalars['String'];
 };
 
-export type GetListResponse = {
-  __typename?: 'getListResponse';
-  ok: Scalars['Boolean'];
-  error?: Maybe<Scalars['String']>;
-  lists?: Maybe<Array<Maybe<List>>>;
-};
-
-export type Query = {
-  __typename?: 'Query';
-  getList: GetListResponse;
-  getRoom: GetRoomResponse;
-  getRooms: GetRoomsResponse;
-  getUserProfile: GetUserProfileResponse;
-  hello?: Maybe<Scalars['String']>;
-};
-
-
-export type QueryGetRoomArgs = {
-  id: Scalars['String'];
-};
-
-export type UpdateListResponse = {
-  __typename?: 'UpdateListResponse';
+export type CreateListResponse = {
+  __typename?: 'CreateListResponse';
   ok: Scalars['Boolean'];
   error?: Maybe<Scalars['String']>;
 };
@@ -194,32 +173,18 @@ export type CreateRoomResponse = {
   error?: Maybe<Scalars['String']>;
 };
 
-export type GetRoomResponse = {
-  __typename?: 'getRoomResponse';
-  ok: Scalars['Boolean'];
-  error?: Maybe<Scalars['String']>;
-  room?: Maybe<Room>;
-};
-
-export type GetRoomsResponse = {
-  __typename?: 'getRoomsResponse';
-  ok: Scalars['Boolean'];
-  error?: Maybe<Scalars['String']>;
-  rooms?: Maybe<Array<Maybe<Room>>>;
-};
-
-export type CompletePhoneVerificationResponse = {
-  __typename?: 'completePhoneVerificationResponse';
-  ok: Scalars['Boolean'];
-  error?: Maybe<Scalars['String']>;
-};
-
 
 export type CreateUserViaPhoneResponse = {
   __typename?: 'createUserViaPhoneResponse';
   ok: Scalars['Boolean'];
   error?: Maybe<Scalars['String']>;
   token?: Maybe<Scalars['String']>;
+};
+
+export type DeleteListResponse = {
+  __typename?: 'DeleteListResponse';
+  ok: Scalars['Boolean'];
+  error?: Maybe<Scalars['String']>;
 };
 
 export type EditProfileResponse = {
@@ -242,6 +207,41 @@ export type EmailSignUpResponse = {
   token?: Maybe<Scalars['String']>;
 };
 
+export type GetListResponse = {
+  __typename?: 'getListResponse';
+  ok: Scalars['Boolean'];
+  error?: Maybe<Scalars['String']>;
+  lists?: Maybe<Array<Maybe<List>>>;
+};
+
+export type Query = {
+  __typename?: 'Query';
+  getList: GetListResponse;
+  getRoom: GetRoomResponse;
+  getRooms: GetRoomsResponse;
+  getUserProfile: GetUserProfileResponse;
+  hello?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryGetRoomArgs = {
+  id: Scalars['String'];
+};
+
+export type GetRoomResponse = {
+  __typename?: 'getRoomResponse';
+  ok: Scalars['Boolean'];
+  error?: Maybe<Scalars['String']>;
+  room?: Maybe<Room>;
+};
+
+export type GetRoomsResponse = {
+  __typename?: 'getRoomsResponse';
+  ok: Scalars['Boolean'];
+  error?: Maybe<Scalars['String']>;
+  rooms?: Maybe<Array<Maybe<Room>>>;
+};
+
 export type GetUserProfileResponse = {
   __typename?: 'getUserProfileResponse';
   ok: Scalars['Boolean'];
@@ -254,20 +254,6 @@ export type GoogleSignInResponse = {
   ok: Scalars['Boolean'];
   error?: Maybe<Scalars['String']>;
   token?: Maybe<Scalars['String']>;
-};
-
-export type StartPhoneVerificationResponse = {
-  __typename?: 'startPhoneVerificationResponse';
-  ok: Scalars['Boolean'];
-  error?: Maybe<Scalars['String']>;
-  token?: Maybe<Scalars['String']>;
-};
-
-export type Amenity = {
-  __typename?: 'Amenity';
-  id: Scalars['String'];
-  name: Scalars['String'];
-  room: Array<Maybe<Room>>;
 };
 
 export type Room = {
@@ -443,6 +429,19 @@ export type Verification = {
   payload: Scalars['String'];
 };
 
+export type StartPhoneVerificationResponse = {
+  __typename?: 'startPhoneVerificationResponse';
+  ok: Scalars['Boolean'];
+  error?: Maybe<Scalars['String']>;
+  token?: Maybe<Scalars['String']>;
+};
+
+export type UpdateListResponse = {
+  __typename?: 'UpdateListResponse';
+  ok: Scalars['Boolean'];
+  error?: Maybe<Scalars['String']>;
+};
+
 
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
@@ -521,32 +520,30 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
-  CreateListResponse: ResolverTypeWrapper<any>;
-  Boolean: ResolverTypeWrapper<any>;
+  Amenity: ResolverTypeWrapper<any>;
   String: ResolverTypeWrapper<any>;
+  completePhoneVerificationResponse: ResolverTypeWrapper<any>;
+  Boolean: ResolverTypeWrapper<any>;
   Mutation: ResolverTypeWrapper<{}>;
   Float: ResolverTypeWrapper<any>;
   Int: ResolverTypeWrapper<any>;
-  DeleteListResponse: ResolverTypeWrapper<any>;
-  getListResponse: ResolverTypeWrapper<any>;
-  Query: ResolverTypeWrapper<{}>;
-  UpdateListResponse: ResolverTypeWrapper<any>;
+  CreateListResponse: ResolverTypeWrapper<any>;
   CreatePaymentResponse: ResolverTypeWrapper<any>;
   ReservationInput: ResolverTypeWrapper<any>;
   CreateReservationResponse: ResolverTypeWrapper<any>;
   createRoomResponse: ResolverTypeWrapper<any>;
-  getRoomResponse: ResolverTypeWrapper<any>;
-  getRoomsResponse: ResolverTypeWrapper<any>;
-  completePhoneVerificationResponse: ResolverTypeWrapper<any>;
   DateTime: ResolverTypeWrapper<any>;
   createUserViaPhoneResponse: ResolverTypeWrapper<any>;
+  DeleteListResponse: ResolverTypeWrapper<any>;
   EditProfileResponse: ResolverTypeWrapper<any>;
   emailSignInResponse: ResolverTypeWrapper<any>;
   emailSignUpResponse: ResolverTypeWrapper<any>;
+  getListResponse: ResolverTypeWrapper<any>;
+  Query: ResolverTypeWrapper<{}>;
+  getRoomResponse: ResolverTypeWrapper<any>;
+  getRoomsResponse: ResolverTypeWrapper<any>;
   getUserProfileResponse: ResolverTypeWrapper<any>;
   googleSignInResponse: ResolverTypeWrapper<any>;
-  startPhoneVerificationResponse: ResolverTypeWrapper<any>;
-  Amenity: ResolverTypeWrapper<any>;
   Room: ResolverTypeWrapper<any>;
   Address: ResolverTypeWrapper<any>;
   User: ResolverTypeWrapper<any>;
@@ -561,36 +558,36 @@ export type ResolversTypes = {
   Message: ResolverTypeWrapper<any>;
   Photo: ResolverTypeWrapper<any>;
   Verification: ResolverTypeWrapper<any>;
+  startPhoneVerificationResponse: ResolverTypeWrapper<any>;
+  UpdateListResponse: ResolverTypeWrapper<any>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
-  CreateListResponse: any;
-  Boolean: any;
+  Amenity: any;
   String: any;
+  completePhoneVerificationResponse: any;
+  Boolean: any;
   Mutation: {};
   Float: any;
   Int: any;
-  DeleteListResponse: any;
-  getListResponse: any;
-  Query: {};
-  UpdateListResponse: any;
+  CreateListResponse: any;
   CreatePaymentResponse: any;
   ReservationInput: any;
   CreateReservationResponse: any;
   createRoomResponse: any;
-  getRoomResponse: any;
-  getRoomsResponse: any;
-  completePhoneVerificationResponse: any;
   DateTime: any;
   createUserViaPhoneResponse: any;
+  DeleteListResponse: any;
   EditProfileResponse: any;
   emailSignInResponse: any;
   emailSignUpResponse: any;
+  getListResponse: any;
+  Query: {};
+  getRoomResponse: any;
+  getRoomsResponse: any;
   getUserProfileResponse: any;
   googleSignInResponse: any;
-  startPhoneVerificationResponse: any;
-  Amenity: any;
   Room: any;
   Address: any;
   User: any;
@@ -605,52 +602,40 @@ export type ResolversParentTypes = {
   Message: any;
   Photo: any;
   Verification: any;
+  startPhoneVerificationResponse: any;
+  UpdateListResponse: any;
 };
 
-export type CreateListResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['CreateListResponse'] = ResolversParentTypes['CreateListResponse']> = {
+export type AmenityResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Amenity'] = ResolversParentTypes['Amenity']> = {
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  room?: Resolver<Array<Maybe<ResolversTypes['Room']>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CompletePhoneVerificationResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['completePhoneVerificationResponse'] = ResolversParentTypes['completePhoneVerificationResponse']> = {
   ok?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  completePhoneVerification?: Resolver<ResolversTypes['completePhoneVerificationResponse'], ParentType, ContextType, RequireFields<MutationCompletePhoneVerificationArgs, 'phoneNumber' | 'key'>>;
   createList?: Resolver<ResolversTypes['CreateListResponse'], ParentType, ContextType, RequireFields<MutationCreateListArgs, 'name'>>;
-  deleteList?: Resolver<ResolversTypes['DeleteListResponse'], ParentType, ContextType, RequireFields<MutationDeleteListArgs, 'id'>>;
-  updateList?: Resolver<ResolversTypes['UpdateListResponse'], ParentType, ContextType, RequireFields<MutationUpdateListArgs, 'roomId'>>;
   createPayment?: Resolver<ResolversTypes['CreatePaymentResponse'], ParentType, ContextType, RequireFields<MutationCreatePaymentArgs, 'reservation'>>;
   createReservation?: Resolver<ResolversTypes['CreateReservationResponse'], ParentType, ContextType, RequireFields<MutationCreateReservationArgs, 'checkIn' | 'checkOut' | 'price' | 'roomId'>>;
   createRoom?: Resolver<ResolversTypes['createRoomResponse'], ParentType, ContextType, RequireFields<MutationCreateRoomArgs, 'name' | 'price' | 'beds' | 'bedrooms' | 'bathroom' | 'guests' | 'checkIn' | 'checkOut'>>;
-  completePhoneVerification?: Resolver<ResolversTypes['completePhoneVerificationResponse'], ParentType, ContextType, RequireFields<MutationCompletePhoneVerificationArgs, 'phoneNumber' | 'key'>>;
   createUserViaPhone?: Resolver<ResolversTypes['createUserViaPhoneResponse'], ParentType, ContextType, RequireFields<MutationCreateUserViaPhoneArgs, 'email' | 'password' | 'name' | 'phone'>>;
+  deleteList?: Resolver<ResolversTypes['DeleteListResponse'], ParentType, ContextType, RequireFields<MutationDeleteListArgs, 'id'>>;
   editProfile?: Resolver<ResolversTypes['EditProfileResponse'], ParentType, ContextType, RequireFields<MutationEditProfileArgs, never>>;
   emailSignIn?: Resolver<ResolversTypes['emailSignInResponse'], ParentType, ContextType, RequireFields<MutationEmailSignInArgs, 'email' | 'password'>>;
   emailSignUp?: Resolver<ResolversTypes['emailSignUpResponse'], ParentType, ContextType, RequireFields<MutationEmailSignUpArgs, 'email' | 'password' | 'name'>>;
   googleSignIn?: Resolver<ResolversTypes['googleSignInResponse'], ParentType, ContextType, RequireFields<MutationGoogleSignInArgs, 'email' | 'avatar' | 'name' | 'googleId'>>;
   startPhoneVerification?: Resolver<ResolversTypes['startPhoneVerificationResponse'], ParentType, ContextType, RequireFields<MutationStartPhoneVerificationArgs, 'phoneNumber'>>;
+  updateList?: Resolver<ResolversTypes['UpdateListResponse'], ParentType, ContextType, RequireFields<MutationUpdateListArgs, 'roomId'>>;
 };
 
-export type DeleteListResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['DeleteListResponse'] = ResolversParentTypes['DeleteListResponse']> = {
-  ok?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type GetListResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['getListResponse'] = ResolversParentTypes['getListResponse']> = {
-  ok?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  lists?: Resolver<Maybe<Array<Maybe<ResolversTypes['List']>>>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  getList?: Resolver<ResolversTypes['getListResponse'], ParentType, ContextType>;
-  getRoom?: Resolver<ResolversTypes['getRoomResponse'], ParentType, ContextType, RequireFields<QueryGetRoomArgs, 'id'>>;
-  getRooms?: Resolver<ResolversTypes['getRoomsResponse'], ParentType, ContextType>;
-  getUserProfile?: Resolver<ResolversTypes['getUserProfileResponse'], ParentType, ContextType>;
-  hello?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-};
-
-export type UpdateListResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['UpdateListResponse'] = ResolversParentTypes['UpdateListResponse']> = {
+export type CreateListResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['CreateListResponse'] = ResolversParentTypes['CreateListResponse']> = {
   ok?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -675,26 +660,6 @@ export type CreateRoomResponseResolvers<ContextType = Context, ParentType extend
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type GetRoomResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['getRoomResponse'] = ResolversParentTypes['getRoomResponse']> = {
-  ok?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  room?: Resolver<Maybe<ResolversTypes['Room']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type GetRoomsResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['getRoomsResponse'] = ResolversParentTypes['getRoomsResponse']> = {
-  ok?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  rooms?: Resolver<Maybe<Array<Maybe<ResolversTypes['Room']>>>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type CompletePhoneVerificationResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['completePhoneVerificationResponse'] = ResolversParentTypes['completePhoneVerificationResponse']> = {
-  ok?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
 export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
   name: 'DateTime';
 }
@@ -703,6 +668,12 @@ export type CreateUserViaPhoneResponseResolvers<ContextType = Context, ParentTyp
   ok?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type DeleteListResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['DeleteListResponse'] = ResolversParentTypes['DeleteListResponse']> = {
+  ok?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -726,6 +697,35 @@ export type EmailSignUpResponseResolvers<ContextType = Context, ParentType exten
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type GetListResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['getListResponse'] = ResolversParentTypes['getListResponse']> = {
+  ok?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  lists?: Resolver<Maybe<Array<Maybe<ResolversTypes['List']>>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  getList?: Resolver<ResolversTypes['getListResponse'], ParentType, ContextType>;
+  getRoom?: Resolver<ResolversTypes['getRoomResponse'], ParentType, ContextType, RequireFields<QueryGetRoomArgs, 'id'>>;
+  getRooms?: Resolver<ResolversTypes['getRoomsResponse'], ParentType, ContextType>;
+  getUserProfile?: Resolver<ResolversTypes['getUserProfileResponse'], ParentType, ContextType>;
+  hello?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+};
+
+export type GetRoomResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['getRoomResponse'] = ResolversParentTypes['getRoomResponse']> = {
+  ok?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  room?: Resolver<Maybe<ResolversTypes['Room']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type GetRoomsResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['getRoomsResponse'] = ResolversParentTypes['getRoomsResponse']> = {
+  ok?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  rooms?: Resolver<Maybe<Array<Maybe<ResolversTypes['Room']>>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type GetUserProfileResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['getUserProfileResponse'] = ResolversParentTypes['getUserProfileResponse']> = {
   ok?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -737,20 +737,6 @@ export type GoogleSignInResponseResolvers<ContextType = Context, ParentType exte
   ok?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type StartPhoneVerificationResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['startPhoneVerificationResponse'] = ResolversParentTypes['startPhoneVerificationResponse']> = {
-  ok?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type AmenityResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Amenity'] = ResolversParentTypes['Amenity']> = {
-  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  room?: Resolver<Array<Maybe<ResolversTypes['Room']>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -927,28 +913,39 @@ export type VerificationResolvers<ContextType = Context, ParentType extends Reso
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type StartPhoneVerificationResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['startPhoneVerificationResponse'] = ResolversParentTypes['startPhoneVerificationResponse']> = {
+  ok?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type UpdateListResponseResolvers<ContextType = Context, ParentType extends ResolversParentTypes['UpdateListResponse'] = ResolversParentTypes['UpdateListResponse']> = {
+  ok?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type Resolvers<ContextType = Context> = {
-  CreateListResponse?: CreateListResponseResolvers<ContextType>;
+  Amenity?: AmenityResolvers<ContextType>;
+  completePhoneVerificationResponse?: CompletePhoneVerificationResponseResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
-  DeleteListResponse?: DeleteListResponseResolvers<ContextType>;
-  getListResponse?: GetListResponseResolvers<ContextType>;
-  Query?: QueryResolvers<ContextType>;
-  UpdateListResponse?: UpdateListResponseResolvers<ContextType>;
+  CreateListResponse?: CreateListResponseResolvers<ContextType>;
   CreatePaymentResponse?: CreatePaymentResponseResolvers<ContextType>;
   CreateReservationResponse?: CreateReservationResponseResolvers<ContextType>;
   createRoomResponse?: CreateRoomResponseResolvers<ContextType>;
-  getRoomResponse?: GetRoomResponseResolvers<ContextType>;
-  getRoomsResponse?: GetRoomsResponseResolvers<ContextType>;
-  completePhoneVerificationResponse?: CompletePhoneVerificationResponseResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
   createUserViaPhoneResponse?: CreateUserViaPhoneResponseResolvers<ContextType>;
+  DeleteListResponse?: DeleteListResponseResolvers<ContextType>;
   EditProfileResponse?: EditProfileResponseResolvers<ContextType>;
   emailSignInResponse?: EmailSignInResponseResolvers<ContextType>;
   emailSignUpResponse?: EmailSignUpResponseResolvers<ContextType>;
+  getListResponse?: GetListResponseResolvers<ContextType>;
+  Query?: QueryResolvers<ContextType>;
+  getRoomResponse?: GetRoomResponseResolvers<ContextType>;
+  getRoomsResponse?: GetRoomsResponseResolvers<ContextType>;
   getUserProfileResponse?: GetUserProfileResponseResolvers<ContextType>;
   googleSignInResponse?: GoogleSignInResponseResolvers<ContextType>;
-  startPhoneVerificationResponse?: StartPhoneVerificationResponseResolvers<ContextType>;
-  Amenity?: AmenityResolvers<ContextType>;
   Room?: RoomResolvers<ContextType>;
   Address?: AddressResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
@@ -963,6 +960,8 @@ export type Resolvers<ContextType = Context> = {
   Message?: MessageResolvers<ContextType>;
   Photo?: PhotoResolvers<ContextType>;
   Verification?: VerificationResolvers<ContextType>;
+  startPhoneVerificationResponse?: StartPhoneVerificationResponseResolvers<ContextType>;
+  UpdateListResponse?: UpdateListResponseResolvers<ContextType>;
 };
 
 
